@@ -7,7 +7,7 @@ extern "C"
 #include "lauxlib.h"
 #include "lualib.h"
 }
-#include "zlib.h"
+//#include "zlib.h"
 #include "Utils.h"
 #include "DSFileIO.h"
 #include "SimpleConsole.h"
