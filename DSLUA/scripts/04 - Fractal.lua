@@ -36,14 +36,6 @@ end;
 -- show instructions
 BGBotText:PrintXY( 0, 0, "Please wait..." )
 
-function multByAdding(a,b)
-	c = 0
-	for d=0,b do
-		c = c + a
-	end
-	return c
-end
-
 -- draw mandelbrot fractal
 w = 256
 h = 192
@@ -51,11 +43,11 @@ dx = x1 - x0
 dy = y1 - y0
 for y=0,h-1 do
 	for x=0,w-1 do
-		r = 0; n = 0; b = multByAdding(x / w, dx) + x0; e = multByAdding(y / h, dy) + y0; i = 0
-		while i < depth-1 and multByAdding(r, r) < 4 do
+		r = 0; n = 0; b = x / w * dx + x0; e = y / h * dy + y0; i = 0
+		while i < depth-1 and r * r < 4 do
 			d = r
-      r = multByAdding(multByAdding(r, r) - n, n) + b
-      n = multByAdding(multByAdding(2, d), n) + e
+      r = r * r - n * n + b
+      n = 2 * d * n + e
       i = i + 1
 		end
     BGTopBit8:Plot( x, y, i )

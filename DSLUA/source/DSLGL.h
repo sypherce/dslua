@@ -7,10 +7,10 @@ extern "C" {
 
 #include "lua.h"
 
-int luaopen_DSLGLLib( lua_State* );
+int luaopen_DSLGLLib(lua_State *);
 
 #ifdef __cplusplus
-}	   // extern "C"
+}          // extern "C"
 #endif
 
 #endif // _DSLGL_H_

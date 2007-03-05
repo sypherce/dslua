@@ -11,10 +11,10 @@ extern "C" {
 //------------------------------------------------------------
 void screenWaitForVBL();
 void resetAllGraphics();
-int luaopen_DSLScreenLib( lua_State* );
+int luaopen_DSLScreenLib(lua_State *);
 
 #ifdef __cplusplus
-}	   // extern "C"
+}          // extern "C"
 #endif
 
 #endif // _DSLSCREEN_H_

@@ -9,10 +9,10 @@ extern "C" {
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-int luaopen_DSLWifiLib( lua_State* );
+int luaopen_DSLWifiLib(lua_State *);
 
 #ifdef __cplusplus
-}	   // extern "C"
+}          // extern "C"
 #endif
 
 #endif // _DSLWIFI_H_

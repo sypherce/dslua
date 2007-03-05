@@ -10,22 +10,22 @@
 class Music
 {
 public:
-   Music( AlignedMemory* );
-   ~Music();
+Music(AlignedMemory *);
+~Music();
 
-   void        play();
-   void        pause( bool );
-   void        stop();
-   void        release();
+void        play();
+void        pause(bool);
+void        stop();
+void        release();
 
-   const char* toString();
+const char * toString();
 private:
-   AlignedMemory* m_apMusic;
-   static u8      m_nNextChannel;
+AlignedMemory * m_apMusic;
+static u8 m_nNextChannel;
 
-   Music();
+Music();
 };
 
-ExternDeclare( Music, Music* );
+ExternDeclare(Music, Music *);
 
 #endif // _DSLMUSIC_H_

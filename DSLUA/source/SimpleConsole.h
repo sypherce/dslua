@@ -6,7 +6,7 @@
 
 #define  DSLUA_MAX_TEXT_COLUMNS        32
 #define  DSLUA_MAX_TEXT_ROWS           24
-#define  DSLUA_MAX_TEXT_COUNT    ( DSLUA_MAX_TEXT_COLUMNS * DSLUA_MAX_TEXT_ROWS )
+#define  DSLUA_MAX_TEXT_COUNT    (DSLUA_MAX_TEXT_COLUMNS * DSLUA_MAX_TEXT_ROWS)
 
 #define  PA_TEXT_WHITE        0
 #define  PA_TEXT_RED          1
@@ -25,21 +25,21 @@ extern "C" {
 
 #include "lua.h"
 
-extern int   g_nSimpleConsoleNextX[2];
-extern int   g_nSimpleConsoleNextY[2];
+extern int g_nSimpleConsoleNextX[2];
+extern int g_nSimpleConsoleNextY[2];
 
-void  SimpleConsoleFillRectWithChar( int, int, int, int, int, const char );
-void  SimpleConsoleClearScreem( int );
-void  SimpleConsoleSetColor( int, int );
-int   SimpleConsolePrintString( int, const char* );
-int   SimpleConsolePrintStringCR( int, const char* );
-int   SimpleConsolePrintLine( int );
-void  stackDump( lua_State*, int );
+void  SimpleConsoleFillRectWithChar(int, int, int, int, int, const char);
+void  SimpleConsoleClearScreem(int);
+void  SimpleConsoleSetColor(int, int);
+int   SimpleConsolePrintString(int, const char *);
+int   SimpleConsolePrintStringCR(int, const char *);
+int   SimpleConsolePrintLine(int);
+void  stackDump(lua_State *, int);
 
-int luaopen_DSLConsoleLib( lua_State* );
+int luaopen_DSLConsoleLib(lua_State *);
 
 #ifdef __cplusplus
-}	   // extern "C"
+}          // extern "C"
 #endif
 
 #endif  // _SIMPLECONSOLE_H_

@@ -9,10 +9,10 @@ extern "C" {
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-int luaopen_DSLSystemLib( lua_State* );
+int luaopen_DSLSystemLib(lua_State *);
 
 #ifdef __cplusplus
-}	   // extern "C"
+}          // extern "C"
 #endif
 
 #endif // _DSLSYSTEM_H_
