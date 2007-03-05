@@ -46,14 +46,6 @@ Ship  = Sprite.Create( ShipFrames, 0, PALETTE_SHIP, nX, nY )
 --Test6 = Sprite.Create( ExplFrames, 5, PALETTE_EXPL,  64,  64 )
 --Test7 = Sprite.Create( ExplFrames, 6, PALETTE_EXPL, 128,  64 )
 
-function moveFromTo(ship, srcX, srcY, destX, destY, speed)
-	moveX = (srcX - destX)/(srcY - destY)
-	moveY = (srcY - destY)/(srcX - destX)
-	srcX - destX / 256 * speed
-	srcY - destY / 192 * speed
-	ship:MoveTo()
-end
-
 -- main loop to update graphics and process inputs
 while true do
   Ship:MoveTo( nX, nY )

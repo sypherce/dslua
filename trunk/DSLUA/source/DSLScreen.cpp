@@ -17,197 +17,209 @@ extern "C"
 //------------------------------------------------------------
 void screenWaitForVBL()
 {
-   PA_WaitForVBL();
+    PA_WaitForVBL();
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-static int l_createTextBackGround( lua_State* lState )
+static int l_createTextBackGround(lua_State * lState)
 {
-   TextBackGround**   ppbgTemp = NULL;
+    TextBackGround * *   ppbgTemp = NULL;
 
-   // get Lua to create an user data item first
-   ppbgTemp = pushTextBackGround( lState );
+    // get Lua to create an user data item first
+    ppbgTemp = pushTextBackGround(lState);
 
-   // now initialize it
-   *ppbgTemp   = new TextBackGround();
+    // now initialize it
+    *ppbgTemp = new TextBackGround();
 
-   return 1;
+    return 1;
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-static int l_createBuff8BitBackGround( lua_State* lState )
+static int l_createBuff8BitBackGround(lua_State * lState)
 {
-   Buff8BitBackGround**   ppbgTemp = NULL;
+    Buff8BitBackGround * *   ppbgTemp = NULL;
 
-   // get Lua to create an user data item first
-   ppbgTemp = pushBuff8BitBackGround( lState );
+    // get Lua to create an user data item first
+    ppbgTemp = pushBuff8BitBackGround(lState);
 
-   // now initialize it
-   *ppbgTemp   = new Buff8BitBackGround();
+    // now initialize it
+    *ppbgTemp = new Buff8BitBackGround();
 
-   return 1;
+    return 1;
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-static int l_createTileBackGround( lua_State* lState )
+static int l_createTileBackGround(lua_State * lState)
 {
-   TileBackGround**   ppbgTemp = NULL;
+    TileBackGround * *   ppbgTemp = NULL;
 
-   // get Lua to create an user data item first
-   ppbgTemp = pushTileBackGround( lState );
+    // get Lua to create an user data item first
+    ppbgTemp = pushTileBackGround(lState);
 
-   // now initialize it
-   *ppbgTemp   = new TileBackGround();
+    // now initialize it
+    *ppbgTemp = new TileBackGround();
 
-   return 1;
+    return 1;
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-static int l_ResetGraphics( lua_State* lState )
+static int l_ResetGraphics(lua_State * lState)
 {
-   resetAllGraphics();
-   return 0;
+    resetAllGraphics();
+    return 0;
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-static int l_WaitForVBL( lua_State* lState )
+static int l_WaitForVBL(lua_State * lState)
 {
-   screenWaitForVBL();
-   return 0;
+    screenWaitForVBL();
+    return 0;
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-bool isBackGroundAvailable( lua_State *L, int nIndex )
+bool isBackGroundAvailable(lua_State * L, int nIndex)
 {
-   unsigned int   nLoop;
-   void           *ud;
-   char           *saBGNames[]   = { AVAILABLE_BGS };
+    unsigned int nLoop;
+    void * ud;
+    char * saBGNames[] = {AVAILABLE_BGS};
 
-   for ( nLoop=0; nLoop < countof( saBGNames ); ++nLoop ) {
-      ud = luaL_checkudata( L, nIndex, saBGNames[ nLoop] );
-      if ( NULL != ud ) {
-         return true;
-      }
-   }
-   return false;
+    for(nLoop = 0; nLoop < countof(saBGNames); ++nLoop)
+    {
+        ud = luaL_checkudata(L, nIndex, saBGNames[ nLoop]);
+        if(NULL != ud)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
 void resetAllGraphics()
 {
-   // reset everything
-   Sprite::freeAllSprites();
-   PA_ResetSpriteSys();
+    // reset everything
+    Sprite::freeAllSprites();
+    PA_ResetSpriteSys();
 #ifndef DEBUG
-   PA_ResetBgSys();
+    PA_ResetBgSys();
 
-   // attempting to clear VRAM
-   memset( VRAM_A, 0, 0x20000 );
-   memset( VRAM_B, 0, 0x40000 );
-   memset( VRAM_C, 0, 0x60000 );
-   memset( VRAM_D, 0, 0x80000 );
-   memset( VRAM_E, 0, 0x90000 );
-   memset( VRAM_F, 0, 0x94000 );
-   memset( VRAM_G, 0, 0x98000 );
-   memset( VRAM_H, 0, 0xA0000 );
-   memset( VRAM_I, 0, 0x98000 );
+    // attempting to clear VRAM
+    memset(VRAM_A, 0, 0x20000);
+    memset(VRAM_B, 0, 0x40000);
+    memset(VRAM_C, 0, 0x60000);
+    memset(VRAM_D, 0, 0x80000);
+    memset(VRAM_E, 0, 0x90000);
+    memset(VRAM_F, 0, 0x94000);
+    memset(VRAM_G, 0, 0x98000);
+    memset(VRAM_H, 0, 0xA0000);
+    memset(VRAM_I, 0, 0x98000);
 #endif
 }
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-static int l_ScreenInitialize( lua_State* lState )
+static int l_ScreenInitialize(lua_State * lState)
 {
 //SimpleConsolePrintString( SCREEN_BOTTOM, "Check args" );
-   // make sure we have the correct number of arguments
-	int   nArgc    = lua_gettop( lState );
-   if ( ( nArgc < 2 ) || ( nArgc > 5 ) ) {
-      return luaL_error( lState, "wrong number of arguments" );
-   }
+// make sure we have the correct number of arguments
+    int nArgc = lua_gettop(lState);
 
-   // process all backgrounds
-   int   nScreen  = luaL_checkint( lState, 1 );
-   int   nBGLeft  = nArgc - 1;
+    if((nArgc < 2) || (nArgc > 5))
+    {
+        return luaL_error(lState, "wrong number of arguments");
+    }
 
-   int   nLoop;
-   int   nIndex, nCurrentMin;
-   bool  baInit[]    = { false, false, false, false, false };
+    // process all backgrounds
+    int nScreen = luaL_checkint(lState, 1);
+    int nBGLeft = nArgc - 1;
 
-   // make sure all other params are BackGrounds
-   for ( nLoop = 0; nLoop < nBGLeft; ++nLoop ) {
-      if ( ! isBackGroundAvailable( lState, 2 + nLoop ) ) {
-         luaL_argcheck( lState, false, 2 + nLoop, "Invalid background type");
-      }
-   }
+    int nLoop;
+    int nIndex, nCurrentMin;
+    bool baInit[] = {false, false, false, false, false};
 
-   // loop through and init each BG with priority
-   BackGround**   ppBGTemp = NULL;
+    // make sure all other params are BackGrounds
+    for(nLoop = 0; nLoop < nBGLeft; ++nLoop)
+    {
+        if(!isBackGroundAvailable(lState, 2 + nLoop))
+        {
+            luaL_argcheck(lState, false, 2 + nLoop, "Invalid background type");
+        }
+    }
+
+    // loop through and init each BG with priority
+    BackGround * *   ppBGTemp = NULL;
 //   PA_ResetBgSys();
-   while ( 1 ) {
-      nIndex      = -1;
-      nCurrentMin = 999;
-      // find the smallest
-      for ( nLoop = 2; nLoop <= nArgc; ++nLoop ) {
-         if ( !baInit[ nLoop - 2 ] ) {
-            ppBGTemp  = toBackGround( lState, nLoop );
-            if ( ( *ppBGTemp ) && ( ( *ppBGTemp )->m_bgType < nCurrentMin ) ) {
-               nIndex      = nLoop;
-               nCurrentMin = ( *ppBGTemp )->m_bgType;
+    while(1)
+    {
+        nIndex = -1;
+        nCurrentMin = 999;
+        // find the smallest
+        for(nLoop = 2; nLoop <= nArgc; ++nLoop)
+        {
+            if(!baInit[ nLoop - 2 ])
+            {
+                ppBGTemp = toBackGround(lState, nLoop);
+                if((*ppBGTemp) && ((*ppBGTemp)->m_bgType < nCurrentMin))
+                {
+                    nIndex = nLoop;
+                    nCurrentMin = (*ppBGTemp)->m_bgType;
+                }
             }
-         }
-      }
+        }
 
-      // found the smallest BG type, init it first
-      assert( nIndex >= 0 );
-      ppBGTemp  = toBackGround( lState, nIndex );
-      ( *ppBGTemp )->initializeOnScreen( nScreen, nIndex - 2 );
-      baInit[ nIndex - 2 ] = true;
-      nBGLeft--;
-      if ( nBGLeft <= 0 ) {
-         break;
-      }
-   }
+        // found the smallest BG type, init it first
+        assert(nIndex >= 0);
+        ppBGTemp = toBackGround(lState, nIndex);
+        (*ppBGTemp)->initializeOnScreen(nScreen, nIndex - 2);
+        baInit[ nIndex - 2 ] = true;
+        nBGLeft--;
+        if(nBGLeft <= 0)
+        {
+            break;
+        }
+    }
 //SimpleConsolePrintString( SCREEN_BOTTOM, "DoneInit" );
 //waitVBLDelay( 1000 );
 
-   return 0;
+    return 0;
 }
 
-static const struct luaL_reg DSLScreenLib [] = {
-   { "WaitForVBL", l_WaitForVBL },
-   { "LoadTextBG", l_createTextBackGround },
-   { "Load8BitBG", l_createBuff8BitBackGround },
-   { "LoadTileBG", l_createTileBackGround },
-   { "Initialize", l_ScreenInitialize },
-   { "ResetAll", l_ResetGraphics },
+static const struct luaL_reg DSLScreenLib [] =
+{
+    {"WaitForVBL", l_WaitForVBL},
+    {"LoadTextBG", l_createTextBackGround},
+    {"Load8BitBG", l_createBuff8BitBackGround},
+    {"LoadTileBG", l_createTileBackGround},
+    {"Initialize", l_ScreenInitialize},
+    {"ResetAll", l_ResetGraphics},
 //   { "Capture", l_ScreenCap },
-   { NULL, NULL }
+    {NULL, NULL}
 };
 
 //------------------------------------------------------------
 //------------------------------------------------------------
-int luaopen_DSLScreenLib( lua_State* lState )
+int luaopen_DSLScreenLib(lua_State * lState)
 {
-   // register the background library
+    // register the background library
 //   BackGround_register( lState );
-   TextBackGround_register( lState );
-   Buff8BitBackGround_register( lState );
-   TileBackGround_register( lState );
+    TextBackGround_register(lState);
+    Buff8BitBackGround_register(lState);
+    TileBackGround_register(lState);
 
-   // register other graphics library
-   FrameStrip_register( lState );
-   Sprite_register( lState );
+    // register other graphics library
+    FrameStrip_register(lState);
+    Sprite_register(lState);
 
-   luaL_openlib( lState, "Screen", DSLScreenLib, 0 );
+    luaL_openlib(lState, "Screen", DSLScreenLib, 0);
 
-   return 1;
+    return 1;
 }
 
 //#include "gba_nds_fat.h"
@@ -273,9 +285,9 @@ int luaopen_DSLScreenLib( lua_State* lState )
 //
 //	dmaCopy(VRAM_A, buffer, 256*192*2 );
 //	dmaCopy(vram_temp, VRAM_A, 128*1024);
-//	
+//
 //	VRAM_A_CR=vram_cr_temp;
-//	
+//
 //	free(vram_temp);
 //}
 //

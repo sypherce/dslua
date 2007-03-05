@@ -10,21 +10,21 @@
 class Sound
 {
 public:
-   Sound( AlignedMemory* );
-   ~Sound();
+Sound(AlignedMemory *);
+~Sound();
 
-   void        play();
-   void        release();
+void        play();
+void        release();
 
-   const char* toString();
+const char * toString();
 private:
-   AlignedMemory* m_apSound;
-   static u8      m_nNextChannel;
+AlignedMemory * m_apSound;
+static u8 m_nNextChannel;
 
-   Sound();
-   u8          getNextChannel();
+Sound();
+u8          getNextChannel();
 };
 
-ExternDeclare( Sound, Sound* );
+ExternDeclare(Sound, Sound *);
 
 #endif // _DSLSOUND_H_

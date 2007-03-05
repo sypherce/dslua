@@ -41,8 +41,8 @@ BGTopBit8:SetPaletteColor( depth-1, 0, 0, 0 )
 BGBotText:PrintXY( 0, 0, "Please wait..." )
 
 -- draw mandelbrot fractal
-w = 255
-h = 191
+w = 256
+h = 192
 dx = x1 - x0
 dy = y1 - y0
 for y=0,h-1 do
