@@ -15,42 +15,42 @@ extern "C" {
 // typedefs
 typedef struct
 {
-    FILE_TYPE ftType;
-    char szFileName[ DS_MAX_FILENAME_LENGTH ];
+	FILE_TYPE ftType;
+	char szFileName[ DS_MAX_FILENAME_LENGTH ];
 } CURRENT_DIR_ENTRIES;
 
 typedef struct
 {
-    int nEntries;
-    CURRENT_DIR_ENTRIES cdeDirList[ DS_MAX_FILES_PER_DIRECTORY ];
+	int nEntries;
+	CURRENT_DIR_ENTRIES cdeDirList[ DS_MAX_FILES_PER_DIRECTORY ];
 } DIR_LIST;
 
 typedef enum {DSF_INTERNAL, DSF_STD, DSF_FAT, DSF_SRAM, DSF_GBFS, DSF_UNKNOWN} DSF_DEVICE_TYPE;
 
 typedef struct
 {
-    DSF_DEVICE_TYPE ddtType;
-    char *             szName;
-    bool bAvailable;
+	DSF_DEVICE_TYPE ddtType;
+	char *             szName;
+	bool bAvailable;
 } DS_DEVICE_INFO;
 
 typedef struct
 {
-    int nDeviceID;
-    char szPath[ DS_MAX_FILENAME_LENGTH ];
+	int nDeviceID;
+	char szPath[ DS_MAX_FILENAME_LENGTH ];
 } DS_DIRECTORY_INFO;
 
 typedef struct
 {
-    u32 nIndex;
-    u32 nLen;
-    const void * vpData;
+	u32 nIndex;
+	u32 nLen;
+	const void * vpData;
 } DS_GBFS;
 
 typedef struct
 {
-    DSF_DEVICE_TYPE ddtDev;
-    void *             vpData;
+	DSF_DEVICE_TYPE ddtDev;
+	void *             vpData;
 } DS_FILE;
 
 bool DSFATDevice_Init();

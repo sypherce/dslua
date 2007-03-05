@@ -26,23 +26,23 @@ const int            getFrameSize();
 const u16            getFrameGfx(unsigned int);
 const u8             getScreen()
 {
-    return m_nScreen;
+	return m_nScreen;
 };
 const u8             getWidth()
 {
-    return m_nWidth;
+	return m_nWidth;
 };
 const u8             getHeight()
 {
-    return m_nHeight;
+	return m_nHeight;
 };
 const u8             getMode()
 {
-    return m_nMode;
+	return m_nMode;
 };
 const int            getParamIndex()
 {
-    return m_nParamIndex;
+	return m_nParamIndex;
 };
 
 bool           addFrame(char *);
