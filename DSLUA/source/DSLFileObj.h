@@ -14,7 +14,7 @@ virtual ~DSLFileObj() = 0;
 DSLFileObj(const char *, const char *);
 bool  openedSuccessfully()
 {
-    return m_bOpened;
+	return m_bOpened;
 };
 
 virtual unsigned int getFileSize() = 0;
@@ -34,7 +34,7 @@ virtual long         _ftell() = 0;
 virtual int          _fflush() = 0;
 
 protected:
-//   GBFSFile( const BGType bgType );
+	//   GBFSFile( const BGType bgType );
 bool m_bOpened;
 char m_szFileName[ DSLFO__MAX_NAME_LENGTH ];
 char m_szMode[16];
@@ -54,7 +54,7 @@ GBFSFile(const char *, const char *);
 
 unsigned int   getFileSize()
 {
-    return m_nLen;
+	return m_nLen;
 };
 int            _fread(void *, size_t, size_t);
 int            _feof();
