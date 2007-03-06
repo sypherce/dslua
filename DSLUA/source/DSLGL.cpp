@@ -11,7 +11,15 @@ extern "C"
 //------------------------------------------------------------
 static int l_DSGLInit3D(lua_State * lState)
 {
-	PA_Init3D();
+	videoSetMode(MODE_0_3D | DISPLAY_SPR_1D_LAYOUT | DISPLAY_SPR_ACTIVE|2<<20);//le mode 3d  PAS TESTE
+
+	glViewPort(0,0,255,191);
+	glClearColor(0,0,0);
+	glClearDepth(0x7FFF);
+	vramSetBankA(VRAM_A_TEXTURE);
+	
+	PA_InitSpriteExtPal(); // Init's sprite extended palettes
+
 	lua_pushboolean(lState, 1);
 	return 1;
 }
@@ -251,13 +259,15 @@ static int lDSGLTexCoord1i(lua_State * lState)
 	return 1;
 }
 
-static int lDSGLRotate3D(lua_State * lState)
+static int lDSGLRotatef(lua_State * lState)
 {
-	float x = luaL_checknumber(lState, 1);
-	float y = luaL_checknumber(lState, 2);
-	float z = luaL_checknumber(lState, 3);
+	float a = luaL_checknumber(lState, 1);
+	float x = luaL_checknumber(lState, 2);
+	float y = luaL_checknumber(lState, 3);
+	float z = luaL_checknumber(lState, 4);
 
 	//PA_Rotate3D(x,y,z);
+	glRotatef(a, x,y,z);
 	lua_pushboolean(lState, 1);
 	return 1;
 }
@@ -295,12 +305,12 @@ static int lDSGLVertex3D(lua_State * lState)
 	return 1;
 }
 
-static int lDSGLVertex2D(lua_State * lState)
+static int lDSGLVertex2f(lua_State * lState)
 {
 	float x = luaL_checknumber(lState, 1);
 	float y = luaL_checknumber(lState, 2);
 
-	//PA_Vertex2D(x,y);
+	glVertex3f(x,y, 0);
 	lua_pushboolean(lState, 1);
 	return 1;
 }
@@ -371,6 +381,20 @@ static int lDSGLColor3f(lua_State * lState)
 	return 1;
 }
 
+static int lDSGLOrtho(lua_State * lState)
+{
+	float l = luaL_checknumber(lState, 1);
+	float r = luaL_checknumber(lState, 2);
+	float b = luaL_checknumber(lState, 3);
+	float t = luaL_checknumber(lState, 4);
+	float n = luaL_checknumber(lState, 4);
+	float f = luaL_checknumber(lState, 4);
+
+	glOrtho(l, r, b, t, n, f);
+	lua_pushboolean(lState, 1);
+	return 1;
+}
+
 static int lDSGLViewPort(lua_State * lState)
 {
 	uint8 x1 = luaL_checkint(lState, 1);
@@ -395,7 +419,7 @@ static int lDSGLTexCoord(lua_State * lState)
 
 static int lDSGLClearDepth(lua_State * lState)
 {
-	uint16 n = luaL_checkint(lState, 3);
+	uint16 n = luaL_checkint(lState, 1);
 
 	glClearDepth(n);
 	lua_pushboolean(lState, 1);
@@ -438,10 +462,10 @@ static const struct luaL_reg DSLGLLib [] =
 	{"AlphaFunc", lDSGLAlphaFunc},
 	{"TexCoord1i", lDSGLTexCoord1i},
 	//{ "Texture", lDSGLTexture },
-	//{ "Rotate3D", lDSGLRotate3D },
+	{ "Rotatef", lDSGLRotatef},
 	//{ "Translate3D", lDSGLTranslate3D },
 	//{ "Scale3D", lDSGLScale3D },
-	//{ "Vertex2D", lDSGLVertex3D },
+	{ "Vertex2f", lDSGLVertex2f },
 	//{ "Vertex3D", lDSGLVertex3D },
 	{"Scalef", lDSGLScalef},
 	{"Translatef", lDSGLTranslatef},
@@ -449,6 +473,7 @@ static const struct luaL_reg DSLGLLib [] =
 	{"ClearColor", lDSGLClearColor},
 	{"Color3b", lDSGLColor3b},
 	{"Color3f", lDSGLColor3f},
+	{"Ortho", lDSGLOrtho},
 	{"ViewPort", lDSGLViewPort},
 	//{ "TexCoord", lDSGLTexCoord },
 	{"ClearDepth", lDSGLClearDepth},
@@ -460,7 +485,7 @@ static const struct luaL_reg DSLGLLib [] =
 //------------------------------------------------------------
 int luaopen_DSLGLLib(lua_State * lState)
 {
-	luaL_openlib(lState, "dsgl", DSLGLLib, 0);
+	luaL_openlib(lState, "DSGL", DSLGLLib, 0);
 	return 1;
 }
 

@@ -19,11 +19,14 @@ extern "C"
 #include "DSLMusic.h"
 #include "DSLSystem.h"
 #include "DSLWifi.h"
+#include "DSLKeyboard.h"
+#include "DSLGL.h"
 //#include "resetmem.h"
 
 // global vars
 static const luaL_reg lualibs[] = {
 	{"base", luaopen_base},
+	{"debug", luaopen_debug},
 	{"table", luaopen_table},
 	{"io", luaopen_io},
 	{"string", luaopen_string},
@@ -37,8 +40,8 @@ static const luaL_reg lualibs[] = {
 	{"mic", luaopen_DSLMicLib},
 	{"dslua", luaopen_DSLSystemLib},
 	{"wifi", luaopen_DSLWifiLib},
-	{"debug", luaopen_debug},
-	{"base", luaopen_base},
+	{"keyboard", luaopen_DSLKeyboardLib},
+	{"dsgl", luaopen_DSLGLLib},
 	//  { "loadlib", luaopen_loadlib },
 /* add your libraries here */
 	//  LUA_EXTRALIBS
