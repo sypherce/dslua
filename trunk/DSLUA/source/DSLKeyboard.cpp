@@ -11,7 +11,8 @@ extern "C"
 //------------------------------------------------------------
 static int l_KeyboardInit(lua_State * lState)
 {
-	PA_InitKeyboard(3);
+	int background = luaL_checkint(lState, 1);
+	PA_InitKeyboard(background);
 	// Scroll it off-screen
 	PA_ScrollKeyboardXY(20, 256);
 	lua_pushboolean(lState, true);
