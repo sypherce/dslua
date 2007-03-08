@@ -273,16 +273,8 @@ int Buff8BitBackGround::getPixel(const int nX, const int nY)
 	// Draws a pixel on screen
 
 	//return PA_Get8BitPixel(m_nScreen, nX, nY);
-	u16 pos = (nX >> 1) + (nY << 7);
-
-	if(nX & 1)
-	{
-		return(PA_DrawBg[m_nScreen][pos] >> 8);
-	}
-	else
-	{
-		return(PA_DrawBg[m_nScreen][pos]);
-	}
+    char *tileData = (char *)PA_DrawBg[m_nScreen];
+	return tileData[nY*512+nX];
 }
 
 //------------------------------------------------------------
@@ -341,7 +333,7 @@ static int l_8BGGetPixel(lua_State * lState)
 
 	int retVal = (*ppTBG)->getPixel(nX, nY);
 
-	lua_pushvalue(lState, retVal);
+	lua_pushnumber(lState, retVal);
 	return retVal;
 }
 
@@ -487,11 +479,8 @@ void TileBackGround::setMap(AlignedMemory * apMapData, const u32 nWidth, const u
 
 int TileBackGround::getMapTile(const s16 nX, const s16 nY)
 {
-	// TODO: Large map func only
-	u32 truex = nX & 31;
-	u32 mapblock = (nX >> 5) << 11;     // Permet d'avoir le bon block...
-
-	return *(unsigned short int *)(PA_BgInfo[m_nScreen][m_nPriority].Map + ((truex) << 1) + ((nY) << 6) + mapblock);
+    char *tileData = (char *)PA_BgInfo[m_nScreen][m_nPriority].Map;
+	return tileData[nY*512+nX];
 }
 
 void TileBackGround::setMapTile(const s16 nX, const s16 nY, const s16 nTileInfo)
@@ -760,9 +749,9 @@ static int l_TileGetMapTile(lua_State * lState)
 
 	int retVal = (*ppTBG)->getMapTile(nX, nY);
 
-	lua_pushvalue(lState, retVal);
+	lua_pushnumber(lState, retVal);
 
-	return retVal;
+	return 1;
 }
 
 //------------------------------------------------------------
