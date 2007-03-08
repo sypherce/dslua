@@ -25,12 +25,14 @@ extern "C"
 
 // global vars
 static const luaL_reg lualibs[] = {
+	//  LUA_BASELIBS
 	{"base", luaopen_base},
 	{"debug", luaopen_debug},
 	{"table", luaopen_table},
 	{"io", luaopen_io},
 	{"string", luaopen_string},
 	{"math", luaopen_math},
+	//  LUA_EXTRALIBS
 	{"text", luaopen_DSLConsoleLib},
 	{"sound", Sound_register},
 	{"music", Music_register},
@@ -42,9 +44,6 @@ static const luaL_reg lualibs[] = {
 	{"wifi", luaopen_DSLWifiLib},
 	{"keyboard", luaopen_DSLKeyboardLib},
 	{"dsgl", luaopen_DSLGLLib},
-	//  { "loadlib", luaopen_loadlib },
-/* add your libraries here */
-	//  LUA_EXTRALIBS
 	{NULL, NULL}
 };
 
