@@ -37,6 +37,21 @@ static int l_createTextBackGround(lua_State * lState)
 
 //------------------------------------------------------------
 //------------------------------------------------------------
+static int l_createKeyboardBackGround(lua_State * lState)
+{
+	KeyboardBackGround * *   ppbgTemp = NULL;
+
+	// get Lua to create an user data item first
+	ppbgTemp = pushKeyboardBackGround(lState);
+
+	// now initialize it
+	*ppbgTemp = new KeyboardBackGround();
+
+	return 1;
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
 static int l_createBuff8BitBackGround(lua_State * lState)
 {
 	Buff8BitBackGround * *   ppbgTemp = NULL;
@@ -195,6 +210,7 @@ static const struct luaL_reg DSLScreenLib [] =
 {
 	{"WaitForVBL", l_WaitForVBL},
 	{"LoadTextBG", l_createTextBackGround},
+	{"LoadKeyboardBG", l_createKeyboardBackGround},
 	{"Load8BitBG", l_createBuff8BitBackGround},
 	{"LoadTileBG", l_createTileBackGround},
 	{"Initialize", l_ScreenInitialize},
@@ -210,6 +226,7 @@ int luaopen_DSLScreenLib(lua_State * lState)
 	// register the background library
 	//   BackGround_register( lState );
 	TextBackGround_register(lState);
+	KeyboardBackGround_register(lState);
 	Buff8BitBackGround_register(lState);
 	TileBackGround_register(lState);
 

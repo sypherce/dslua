@@ -13,7 +13,7 @@ extern "C" {
 class BackGround
 {
 public:
-enum           BGType {BG_3D, BG_LARGE, BG_EXT_ROTATE, BG_ROTATE, BG_BUFF8BIT, BG_TEXT};
+enum           BGType {BG_3D, BG_LARGE, BG_EXT_ROTATE, BG_ROTATE, BG_BUFF8BIT, BG_TEXT, BG_KEYBOARD};
 
 public:
 const BGType m_bgType;
@@ -45,6 +45,23 @@ void setColor(const int);
 void printXY(const int, const int, const char *);
 void fillRectWithChar(const int, const int, const int, const int, const char *);
 void eraseScreen();
+
+const char * toString();
+int         initializeOnScreen(const int, const int);
+};
+
+
+
+//------------------------------------------------------------
+//----- KeyboardBackGround class
+//------------------------------------------------------------
+class KeyboardBackGround : public BackGround
+{
+public:
+KeyboardBackGround();
+~KeyboardBackGround();
+
+void setColor(const int, const int);
 
 const char * toString();
 int         initializeOnScreen(const int, const int);
@@ -108,10 +125,11 @@ void  deleteMap();
 //-------------------------
 ExternDeclare(BackGround, BackGround *);
 ExternDeclare(TextBackGround, TextBackGround *);
+ExternDeclare(KeyboardBackGround, KeyboardBackGround *);
 ExternDeclare(Buff8BitBackGround, Buff8BitBackGround *);
 ExternDeclare(TileBackGround, TileBackGround *);
 
-#define AVAILABLE_BGS   "TextBackGround", "Buff8BitBackGround", "TileBackGround"
+#define AVAILABLE_BGS   "TextBackGround", "KeyboardBackGround", "Buff8BitBackGround", "TileBackGround"
 
 #ifdef __cplusplus
 }          // extern "C"

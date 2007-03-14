@@ -19,7 +19,7 @@ extern "C"
 #include "DSLMusic.h"
 #include "DSLSystem.h"
 #include "DSLWifi.h"
-#include "DSLKeyboard.h"
+//#include "DSLKeyboard.h"
 #include "DSLGL.h"
 //#include "resetmem.h"
 
@@ -42,7 +42,7 @@ static const luaL_reg lualibs[] = {
 	{"mic", luaopen_DSLMicLib},
 	{"dslua", luaopen_DSLSystemLib},
 	{"wifi", luaopen_DSLWifiLib},
-	{"keyboard", luaopen_DSLKeyboardLib},
+//	{"keyboard", luaopen_DSLKeyboardLib},
 	{"dsgl", luaopen_DSLGLLib},
 	{NULL, NULL}
 };

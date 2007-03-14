@@ -55,7 +55,7 @@ ARCH	:=	-mthumb-interwork
 # note: arm9tdmi isn't the correct CPU arch, but anything newer and LD
 # *insists* it has a FPU or VFP, and it won't take no for an answer!
 
-NUMBER= -DLUA_USER_H='"./etc/luser_number.h"' -DUSE_INT
+NUMBER= -DLUA_USER_H='"./lib/lua-5.0.2/etc/luser_number.h"' -DUSE_INT
 
 CFLAGS	:=	-g -Wall -O2\
  		-mcpu=arm9tdmi -mtune=arm9tdmi -fomit-frame-pointer\
@@ -101,7 +101,6 @@ LIBDSWIFI := -ldswifi9
 # include and lib
 #---------------------------------------------------------------------------------
 LIBDIRS		:=	$(DEVKITPRO)/libnds
-LIBDIRZ		:=	$(CURDIR)/zlib-1.2.3
 LIBDIRPA	:=	$(PAPATH)
 
 
@@ -150,7 +149,6 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 
 export LIBPATHS		:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 export LIBPATHPA	:=	$(foreach dir,$(LIBDIRPA),-L$(dir)/lib)
-export LIBPATHZ		:=	$(foreach dir,$(LIBDIRZ),-L$(dir))
 
 .PHONY: $(BUILD) clean export release
 
