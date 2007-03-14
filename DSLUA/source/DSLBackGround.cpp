@@ -222,6 +222,155 @@ static const luaL_reg TextBackGround_meta[] = {
 UserdataRegister(TextBackGround, TextBackGround_methods, TextBackGround_meta);
 
 //------------------------------------------------------------
+//----- KeyboardBackGround class
+//------------------------------------------------------------
+UserdataStubs(KeyboardBackGround, KeyboardBackGround *);
+
+KeyboardBackGround::KeyboardBackGround()
+	:  BackGround(BG_KEYBOARD)
+{
+}
+
+int KeyboardBackGround::initializeOnScreen(const int nScreen, const int nBG)
+{
+	// init parent BG first
+	BackGround::initializeOnScreen(nScreen, nBG);
+
+	// init keyboard mode
+	PA_InitKeyboard(nBG);
+	return 0;
+}
+
+KeyboardBackGround::~KeyboardBackGround()
+{
+	// delete background
+	if(m_nScreen >= 0)
+	{
+		PA_DeleteBg(m_nScreen, m_nPriority);
+	}
+}
+
+const char * KeyboardBackGround::toString()
+{
+	return "KeyboardBackGround";
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void KeyboardBackGround::setColor(const int color1, const int color2)
+{
+	PA_SetKeyboardColor(color1, color2);
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_TBGSetKeyboardColor(lua_State * lState)
+{
+	KeyboardBackGround * *  ppTBG = checkKeyboardBackGround(lState, 1);
+	int color1 = luaL_checkint(lState, 2);
+	int color2 = luaL_checkint(lState, 3);
+
+	if(color1 >= 0 && color1 < 3 && color2 >= 0 && color2 < 3)
+	{
+		(*ppTBG)->setColor(color1, color2);
+		lua_pushboolean(lState, true);
+	}
+	else
+	{
+		lua_pushboolean(lState, false);
+	}
+
+	return 0;
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_TBGCheckKeyboard(lua_State * lState)
+{
+	//KeyboardBackGround * *  ppTBG = checkKeyboardBackGround(lState, 1);
+	int nColor = PA_CheckKeyboard();
+
+	lua_pushnumber(lState, nColor);
+
+	return 0;
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_TBGScrollXY(lua_State * lState)
+{
+	KeyboardBackGround * *  ppTBG = checkKeyboardBackGround(lState, 1);
+	int nX = luaL_checkint(lState, 2);
+	int nY = luaL_checkint(lState, 3);
+	PA_ScrollKeyboardXY(nX, nY);
+	lua_pushboolean(lState, true);
+
+	return 0;
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_TBGIn(lua_State * lState)
+{
+	//KeyboardBackGround * *  ppTBG = checkKeyboardBackGround(lState, 1);
+	int nX = luaL_checkint(lState, 2);
+	int nY = luaL_checkint(lState, 3);
+
+	PA_KeyboardIn(nX, nY);
+	lua_pushboolean(lState, true);
+
+	return 0;
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_TBGOut(lua_State * lState)
+{
+	KeyboardBackGround * *  ppTBG = checkKeyboardBackGround(lState, 1);
+
+	PA_KeyboardOut();
+	lua_pushboolean(lState, true);
+
+	return 0;
+}
+
+
+static int l_KeyboardBackGroundGC(lua_State * lState)
+{
+	KeyboardBackGround * *   pBGTemp = toKeyboardBackGround(lState, 1);
+
+	if(*pBGTemp)
+	{
+		delete (*pBGTemp);
+		*pBGTemp = NULL;
+	}
+	return 0;
+}
+
+static int l_KeyboardBackGroundToString(lua_State * lState)
+{
+	lua_pushstring(lState, (*toKeyboardBackGround(lState, 1))->toString());
+	return 1;
+}
+
+static const luaL_reg KeyboardBackGround_methods[] = {
+	{"SetColor", l_TBGSetKeyboardColor},
+	{"CheckKeyboard", l_TBGCheckKeyboard},
+	{"ScrollXY", l_TBGScrollXY},
+	{"In", l_TBGIn},
+	{"Out", l_TBGOut},
+	{0, 0}
+};
+
+static const luaL_reg KeyboardBackGround_meta[] = {
+	{"__gc", l_KeyboardBackGroundGC},
+	{"__tostring", l_KeyboardBackGroundToString},
+	{0, 0}
+};
+
+UserdataRegister(KeyboardBackGround, KeyboardBackGround_methods, KeyboardBackGround_meta);
+
+//------------------------------------------------------------
 //----- Buff8BitBackGround class
 //------------------------------------------------------------
 UserdataStubs(Buff8BitBackGround, Buff8BitBackGround *);
@@ -393,6 +542,178 @@ static const luaL_reg Buff8BitBackGround_meta[] = {
 };
 
 UserdataRegister(Buff8BitBackGround, Buff8BitBackGround_methods, Buff8BitBackGround_meta);
+
+
+/*//------------------------------------------------------------
+//----- Buff8BitBackGround class
+//------------------------------------------------------------
+UserdataStubs(Buff16CBackGround, Buff16CBackGround *);
+
+Buff16CBackGround::Buff16CBackGround()
+	:  BackGround(BG_BUFF8BIT)!!!
+{
+}
+
+int Buff16cBackGround::initializeOnScreen(const int nScreen, const int nBG)
+{
+	// init parent BG first
+	BackGround::initializeOnScreen(nScreen, nBG);
+
+	// init 16c mode
+	PA_Init16cBg(nScreen, nBG);
+	return 0;
+}
+
+Buff16cBackGround::~Buff16cBackGround()
+{
+	// delete background
+	if(m_nScreen >= 0)
+	{
+		PA_DeleteBg(m_nScreen, m_nPriority);
+	}
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void Buff16cBackGround::setPaletteColor(const int nIndex, const int nR, const int nG, const int nB)
+{!!!
+	PA_SetBgPalCol(m_nScreen, nIndex, PA_RGB(nR, nG, nB));
+	//   PA_SetBgPalNCol( m_nScreen, 3, 0, nIndex, PA_RGB( nR, nG, nB ) );
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void Buff16cBackGround::plot(const int nX, const int nY, const int nPaletteIndex)
+{
+	// Draws a pixel on screen
+	PA_16cPutPixel(m_nScreen, nX, nY, nPaletteIndex);
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+int Buff16cBackGround::getPixel(const int nX, const int nY)
+{
+	// Gets a pixel on screen
+	return PA_16cGetPixel(nX, nY);
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+//void Buff16cBackGround::line(const int nX1, const int nY1, const int nX2, const int nY2, const int nPaletteIndex)
+//{
+//	// Draws a pixel on screen
+//	PA_Draw8bitLine(m_nScreen, nX1, nY1, nX2, nY2, nPaletteIndex);
+//}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void Buff16cBackGround::clear()
+{
+	// Draws a pixel on screen
+	PA_16cClearZone(m_nScreen, 0, 0, 255, 191);
+}
+
+const char * Buff16cBackGround::toString()
+{
+	return "Buff16cBackGround";
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_16cBGSetPaletteColor(lua_State * lState)
+{!!
+	Buff16cBackGround * * ppTBG = checkBuff16cBackGround(lState, 1);
+	int nIndex = luaL_checkint(lState, 2);
+	int nR = luaL_checkint(lState, 3);
+	int nG = luaL_checkint(lState, 4);
+	int nB = luaL_checkint(lState, 5);
+
+	(*ppTBG)->setPaletteColor(nIndex, nR, nG, nB);
+
+	return 0;
+}
+
+static int l_16cBGPlot(lua_State * lState)
+{
+	Buff16cBackGround * * ppTBG = checkBuff16cBackGround(lState, 1);
+	int nX = luaL_checkint(lState, 2);
+	int nY = luaL_checkint(lState, 3);
+	int nColor = luaL_checkint(lState, 4);
+
+	(*ppTBG)->plot(nX, nY, nColor);
+
+	return 0;
+}
+
+static int l_16cBGGetPixel(lua_State * lState)
+{
+	Buff16cBackGround * * ppTBG = checkBuff16cBackGround(lState, 1);
+	int nX = luaL_checkint(lState, 2);
+	int nY = luaL_checkint(lState, 3);
+
+	int retVal = (*ppTBG)->getPixel(nX, nY);
+
+	lua_pushnumber(lState, retVal);
+	return retVal;
+}
+
+static int l_16cBGLine(lua_State * lState)
+{
+	Buff16cBackGround * * ppTBG = checkBuff16cBackGround(lState, 1);
+	int nX1 = luaL_checkint(lState, 2);
+	int nY1 = luaL_checkint(lState, 3);
+	int nX2 = luaL_checkint(lState, 4);
+	int nY2 = luaL_checkint(lState, 5);
+	int nColor = luaL_checkint(lState, 6);
+
+	(*ppTBG)->line(nX1, nY1, nX2, nY2, nColor);
+
+	return 0;
+}
+
+static int l_16cBGClear(lua_State * lState)
+{
+	Buff16cBackGround * * ppTBG = checkBuff16cBackGround(lState, 1);
+
+	(*ppTBG)->clear();
+
+	return 0;
+}
+
+static int l_Buff16cBackGroundGC(lua_State * lState)
+{
+	Buff16cBackGround * *   pBGTemp = toBuff16cBackGround(lState, 1);
+
+	if(*pBGTemp)
+	{
+		delete (*pBGTemp);
+		*pBGTemp = NULL;
+	}
+	return 0;
+}
+
+static int l_Buff16cBackGroundToString(lua_State * lState)
+{
+	lua_pushstring(lState, (*toBuff16cBackGround(lState, 1))->toString());
+	return 1;
+}
+
+static const luaL_reg Buff16cBackGround_methods[] = {
+	{"SetPaletteColor", l_16cBGSetPaletteColor},
+	{"Plot", l_16cBGPlot},
+	{"GetPixel", l_16cBGGetPixel},
+	{"Line", l_16cBGLine},
+	{"Clear", l_16cBGClear},
+	{0, 0}
+};
+static const luaL_reg Buff16cBackGround_meta[] = {
+	{"__gc", l_Buff16cBackGroundGC},
+	{"__tostring", l_Buff16cBackGroundToString},
+	{0, 0}
+};
+
+UserdataRegister(Buff16cBackGround, Buff16cBackGround_methods, Buff16cBackGround_meta);*/
+
 
 //------------------------------------------------------------
 //----- TileBackGround class
