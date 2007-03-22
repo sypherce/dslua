@@ -68,6 +68,10 @@
  #include "io_efa2.h"
 #endif
 
+#ifdef SUPPORT_DLDI
+ #include "io_dldi.h"
+#endif
+
 // Keep a pointer to the active interface
 LPIO_INTERFACE active_interface = 0;
 
@@ -288,6 +292,16 @@ bool disc_setGbaSlotInterface (void)
 	if (active_interface->fn_StartUp())
 	{
 		// set FC as default IO
+		return true ;
+	} ;
+#endif
+
+#ifdef SUPPORT_DLDI
+	// check if we have a GBA Flash Cart plugged in
+	active_interface = DLDI_GetInterface() ;
+	if (active_interface->fn_StartUp())
+	{
+		// set DLDI as default IO
 		return true ;
 	} ;
 #endif
