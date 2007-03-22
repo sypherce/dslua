@@ -26,7 +26,7 @@ extern IO_INTERFACE _io_dldi;
 // export interface
 static inline LPIO_INTERFACE DLDI_GetInterface(void) {
 #ifdef NDS
-	WAIT_CR &= ~(ARM9_OWNS_ROM | ARM9_OWNS_CARD);
+	REG_EXEMEMCNT &= ~(ARM7_OWNS_ROM | ARM7_OWNS_CARD);
 #endif // defined NDS
 	return &_io_dldi;
 }
