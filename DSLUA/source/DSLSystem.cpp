@@ -37,7 +37,7 @@ static int l_WaitForAnyKey(lua_State * lState)
 //------------------------------------------------------------
 static int l_VBCount(lua_State * lState)
 {
-	lua_pushnumber(lState, 0 /************88IPC->heartbeat*********/);
+	lua_pushnumber(lState, 0);//broken, need to find new heartbeat
 	return 1;
 }
 

@@ -8,7 +8,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdarg.h>
-//#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 
 
@@ -21,7 +21,7 @@
 #include "lua.h"
 
 #include "lauxlib.h"
-#include "../source/DSFileIO.h"
+
 
 /* number of prereserved references (for internal use) */
 #define RESERVED_REFS	2
@@ -67,7 +67,7 @@ LUALIB_API int luaL_typerror (lua_State *L, int narg, const char *tname) {
 
 
 static void tag_error (lua_State *L, int narg, int tag) {
-  luaL_typerror(L, narg, lua_typename(L, tag));
+  luaL_typerror(L, narg, lua_typename(L, tag)); 
 }
 
 
@@ -461,7 +461,7 @@ LUALIB_API void luaL_unref (lua_State *L, int t, int ref) {
 */
 
 typedef struct LoadF {
-  DS_FILE *f;
+  FILE *f;
   char buff[LUAL_BUFFERSIZE];
 } LoadF;
 
@@ -469,8 +469,8 @@ typedef struct LoadF {
 static const char *getF (lua_State *L, void *ud, size_t *size) {
   LoadF *lf = (LoadF *)ud;
   (void)L;
-  if (DS_feof(lf->f)) return NULL;
-  *size = DS_fread(lf->buff, 1, LUAL_BUFFERSIZE, lf->f);
+  if (feof(lf->f)) return NULL;
+  *size = fread(lf->buff, 1, LUAL_BUFFERSIZE, lf->f);
   return (*size > 0) ? lf->buff : NULL;
 }
 
@@ -486,31 +486,26 @@ static int errfile (lua_State *L, int fnameindex) {
 LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
   LoadF lf;
   int status, readstatus;
-//  int c;
+  int c;
   int fnameindex = lua_gettop(L) + 1;  /* index of filename on the stack */
   if (filename == NULL) {
-     // TODO: Convert stdin to DS_FILE type
-//    lua_pushliteral(L, "=stdin");
-//    lf.f = stdin;
-     return LUA_ERRFILE;
+    lua_pushliteral(L, "=stdin");
+    lf.f = stdin;
   }
   else {
     lua_pushfstring(L, "@%s", filename);
-    lf.f = DS_fopen(filename, "r");
+    lf.f = fopen(filename, "r");
   }
   if (lf.f == NULL) return errfile(L, fnameindex);  /* unable to open file */
-  // TODO: check for binary files and read in compiled LUA bytecode
-//  c = ungetc(getc(lf.f), lf.f);
-//  if (!(isspace(c) || isprint(c)) && lf.f != stdin) {  /* binary file? */
-//    DS_fclose(lf.f);
-//    lf.f = DS_fopen(filename, "rb");  /* reopen in binary mode */
-//    if (lf.f == NULL) return errfile(L, fnameindex); /* unable to reopen file */
-//  }
+  c = ungetc(getc(lf.f), lf.f);
+  if (!(isspace(c) || isprint(c)) && lf.f != stdin) {  /* binary file? */
+    fclose(lf.f);
+    lf.f = fopen(filename, "rb");  /* reopen in binary mode */
+    if (lf.f == NULL) return errfile(L, fnameindex); /* unable to reopen file */
+  }
   status = lua_load(L, getF, &lf, lua_tostring(L, -1));
-  readstatus = DS_ferror(lf.f);
-  // TODO: stdin check before closing
-//  if (lf.f != stdin) DS_fclose(lf.f);  /* close file (even in case of errors) */
-  DS_fclose(lf.f);  /* close file (even in case of errors) */
+  readstatus = ferror(lf.f);
+  if (lf.f != stdin) fclose(lf.f);  /* close file (even in case of errors) */
   if (readstatus) {
     lua_settop(L, fnameindex);  /* ignore results from `lua_load' */
     return errfile(L, fnameindex);
@@ -562,7 +557,7 @@ static void callalert (lua_State *L, int status) {
       lua_call(L, 1, 0);
     }
     else {  /* no _ALERT function; print it on stderr */
-      DS_fprintf( stderr, "%s\n", lua_tostring(L, -2));
+      fprintf(stderr, "%s\n", lua_tostring(L, -2));
       lua_pop(L, 2);  /* remove error message and _ALERT */
     }
   }

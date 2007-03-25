@@ -243,21 +243,21 @@ static int l_FrameStripLoadBin(lua_State * lState)
 	}
 
 	// open palette file in binary mode
-	DS_FILE * dsfImg = DS_fopen(szFName, "rb");
+	FILE * dsfImg = fopen(szFName, "rb");
 	if(NULL == dsfImg)
 	{
 		return luaL_error(lState, "Failed to open image file '%s'", szFName);
 	}
 
 	// load image into memroy
-	nSize = DS_getFileSize(dsfImg);
+	nSize = getFileSize(dsfImg);
 	nFrameSize = (*ppStrip)->getFrameSize();
 	nWanted = nFrames * nFrameSize;
 
 	// make sure we have enough frame data
 	if(nSize < nWanted)
 	{
-		DS_fclose(dsfImg);
+		fclose(dsfImg);
 		return luaL_error(lState, "Image file contains less than %d frames of sprite", nWanted);
 	}
 
@@ -275,7 +275,7 @@ static int l_FrameStripLoadBin(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfImg);
+		fclose(dsfImg);
 		return luaL_error(lState, "Unable to allocate %d bytes for sprite image data", nFrameSize);
 	}
 
@@ -285,14 +285,14 @@ static int l_FrameStripLoadBin(lua_State * lState)
 	{
 		// read in a single frame of bin data
 		//      memset( cbTemp, 0, nFrameSize );
-		nRead = DS_fread(cbTemp, 1, nFrameSize, dsfImg);
+		nRead = fread(cbTemp, 1, nFrameSize, dsfImg);
 
 		// make sure we read in something
 		if(nRead != nFrameSize)
 		{
 			//         free( cbTemp );
 			delete (amMem);
-			DS_fclose(dsfImg);
+			fclose(dsfImg);
 			return luaL_error(lState, "Can only read in %d bytes of sprite data for frame %d", nRead, nLoop);
 		}
 
@@ -321,7 +321,7 @@ static int l_FrameStripLoadBin(lua_State * lState)
 	//   free( cbTemp );
 	//   delete [] cbTemp;
 	delete (amMem);
-	DS_fclose(dsfImg);
+	fclose(dsfImg);
 
 	return 0;
 }
@@ -557,17 +557,17 @@ static int l_SpriteLoadPalette(lua_State * lState)
 	}
 
 	// open palette file in binary mode
-	DS_FILE * dsfPal = DS_fopen(szFName, "rb");
+	FILE * dsfPal = fopen(szFName, "rb");
 	if(NULL == dsfPal)
 	{
 		return luaL_error(lState, "Failed to open palette file '%s'", szFName);
 	}
 
 	// check file size
-	nSize = DS_getFileSize(dsfPal);
+	nSize = getFileSize(dsfPal);
 	if((nSize < 1) || (nSize % 2))
 	{
-		DS_fclose(dsfPal);
+		fclose(dsfPal);
 		return luaL_error(lState, "Incorrect palette file size: %d", nSize);
 	}
 
@@ -587,7 +587,7 @@ static int l_SpriteLoadPalette(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfPal);
+		fclose(dsfPal);
 		return luaL_error(lState, "Unable to allocate %d bytes for palette memory", nSize);
 	}
 
@@ -600,14 +600,14 @@ static int l_SpriteLoadPalette(lua_State * lState)
 	//      cbTemp[i<<1]      = 0x7F;
 	//      cbTemp[(i<<1)+1]  = 0x7F;
 	//   }
-	nRead = DS_fread(cbTemp, 1, nSize, dsfPal);
+	nRead = fread(cbTemp, 1, nSize, dsfPal);
 
 	// make sure we read in something
 	if(nRead != nSize)
 	{
 		//      free( cbTemp );
 		delete (amMem);
-		DS_fclose(dsfPal);
+		fclose(dsfPal);
 		return luaL_error(lState, "Can only read in %d bytes of palette data", nRead);
 	}
 
@@ -625,7 +625,7 @@ static int l_SpriteLoadPalette(lua_State * lState)
 	// free mem, close the file when we are done
 	//   free( cbTemp );
 	delete (amMem);
-	DS_fclose(dsfPal);
+	fclose(dsfPal);
 
 	return 0;
 }

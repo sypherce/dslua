@@ -21,7 +21,7 @@
 #include "lstring.h"
 #include "ltable.h"
 #include "ltm.h"
-#include <stdio.h>
+
 
 /*
 ** macro to allow the inclusion of user information in Lua state
@@ -46,10 +46,9 @@ static int default_panic (lua_State *L) {
 
 
 static lua_State *mallocstate (lua_State *L) {
-  lu_byte *block = (lu_byte *)luaM_malloc(L, sizeof(lua_State) + EXTRASPACE );
-  if (block == NULL) {
-	return NULL;
-  } else {
+  lu_byte *block = (lu_byte *)luaM_malloc(L, sizeof(lua_State) + EXTRASPACE);
+  if (block == NULL) return NULL;
+  else {
     block += EXTRASPACE;
     return cast(lua_State *, block);
   }
@@ -192,10 +191,6 @@ LUA_API lua_State *lua_open (void) {
       close_state(L);
       L = NULL;
     }
-  } else {
-/*
-printf( "Can not malloc state\n" );
-*/
   }
   lua_userstateopen(L);
   return L;

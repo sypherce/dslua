@@ -870,7 +870,7 @@ static int l_TileLoadPalette(lua_State * lState)
 	unsigned int nSize;
 
 	// open palette file in binary mode
-	DS_FILE * dsfPal = DS_fopen(szFName, "rb");
+	FILE * dsfPal = fopen(szFName, "rb");
 
 	if(NULL == dsfPal)
 	{
@@ -878,10 +878,10 @@ static int l_TileLoadPalette(lua_State * lState)
 	}
 
 	// check file size
-	nSize = DS_getFileSize(dsfPal);
+	nSize = getFileSize(dsfPal);
 	if((nSize < 1) || (nSize % 2))
 	{
-		DS_fclose(dsfPal);
+		fclose(dsfPal);
 		return luaL_error(lState, "Incorrect palette file size: %d", nSize);
 	}
 
@@ -899,18 +899,18 @@ static int l_TileLoadPalette(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfPal);
+		fclose(dsfPal);
 		return luaL_error(lState, "Unable to allocate %d bytes for tile palette memory", nSize);
 	}
 
 	// init the memory acquired and read in the data
-	nRead = DS_fread(cbTemp, 1, nSize, dsfPal);
+	nRead = fread(cbTemp, 1, nSize, dsfPal);
 
 	// make sure we read in something
 	if(nRead != nSize)
 	{
 		delete (amMem);
-		DS_fclose(dsfPal);
+		fclose(dsfPal);
 		return luaL_error(lState, "Can only read in %d bytes of tile palette data", nRead);
 	}
 
@@ -918,7 +918,7 @@ static int l_TileLoadPalette(lua_State * lState)
 	(*ppTBG)->setPalette(amMem);
 
 	// close the file when we are done
-	DS_fclose(dsfPal);
+	fclose(dsfPal);
 
 	return 0;
 }
@@ -944,14 +944,14 @@ static int l_TileLoadTiles(lua_State * lState)
 	}
 
 	// open tile file in binary mode
-	DS_FILE * dsfTile = DS_fopen(szFName, "rb");
+	FILE * dsfTile = fopen(szFName, "rb");
 	if(NULL == dsfTile)
 	{
 		return luaL_error(lState, "Failed to open tile file '%s'", szFName);
 	}
 
 	// load tile into memroy
-	nSize = DS_getFileSize(dsfTile);
+	nSize = getFileSize(dsfTile);
 	AlignedMemory *    amMem = new AlignedMemory(5, nSize);
 	char * cbTemp = (char *)(amMem->vpAlignedMem);
 	size_t nRead;
@@ -965,18 +965,18 @@ static int l_TileLoadTiles(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfTile);
+		fclose(dsfTile);
 		return luaL_error(lState, "Unable to allocate %d bytes for tile tile memory", nSize);
 	}
 
 	// init the memory acquired and read in the data
-	nRead = DS_fread(cbTemp, 1, nSize, dsfTile);
+	nRead = fread(cbTemp, 1, nSize, dsfTile);
 
 	// make sure we read in something
 	if(nRead != nSize)
 	{
 		delete (amMem);
-		DS_fclose(dsfTile);
+		fclose(dsfTile);
 		return luaL_error(lState, "Can only read in %d bytes of tile tile data", nRead);
 	}
 
@@ -984,7 +984,7 @@ static int l_TileLoadTiles(lua_State * lState)
 	(*ppTBG)->setTiles(amMem, bColorMode);
 
 	// close the file when we are done
-	DS_fclose(dsfTile);
+	fclose(dsfTile);
 
 	return 0;
 }
@@ -1000,7 +1000,7 @@ static int l_TileLoadMap(lua_State * lState)
 	unsigned int nSize;
 
 	// open map file in binary mode
-	DS_FILE * dsfMap = DS_fopen(szFName, "rb");
+	FILE * dsfMap = fopen(szFName, "rb");
 
 	if(NULL == dsfMap)
 	{
@@ -1008,7 +1008,7 @@ static int l_TileLoadMap(lua_State * lState)
 	}
 
 	// load map into memroy
-	nSize = DS_getFileSize(dsfMap);
+	nSize = getFileSize(dsfMap);
 	AlignedMemory *    amMem = new AlignedMemory(5, nSize);
 	char * cbTemp = (char *)(amMem->vpAlignedMem);
 	size_t nRead;
@@ -1022,18 +1022,18 @@ static int l_TileLoadMap(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfMap);
+		fclose(dsfMap);
 		return luaL_error(lState, "Unable to allocate %d bytes for tile map memory", nSize);
 	}
 
 	// init the memory acquired and read in the data
-	nRead = DS_fread(cbTemp, 1, nSize, dsfMap);
+	nRead = fread(cbTemp, 1, nSize, dsfMap);
 
 	// make sure we read in something
 	if(nRead != nSize)
 	{
 		delete (amMem);
-		DS_fclose(dsfMap);
+		fclose(dsfMap);
 		return luaL_error(lState, "Can only read in %d bytes of tile map data", nRead);
 	}
 
@@ -1041,7 +1041,7 @@ static int l_TileLoadMap(lua_State * lState)
 	(*ppTBG)->setMap(amMem, nWidth, nHeight);
 
 	// close the file when we are done
-	DS_fclose(dsfMap);
+	fclose(dsfMap);
 
 	return 0;
 }

@@ -102,7 +102,7 @@ static int l_SoundLoadRaw(lua_State * lState)
 	int nLoop;
 
 	// open palette file in binary mode
-	DS_FILE * dsfSound = DS_fopen(szFName, "rb");
+	FILE * dsfSound = fopen(szFName, "rb");
 
 	if(NULL == dsfSound)
 	{
@@ -110,7 +110,7 @@ static int l_SoundLoadRaw(lua_State * lState)
 	}
 
 	// load sound into memroy
-	nSize = DS_getFileSize(dsfSound);
+	nSize = getFileSize(dsfSound);
 	AlignedMemory * amMem = new AlignedMemory(5, nSize + _EXTRA_SOUND_SIZE);
 	char *          cbTemp = (char *)(amMem->vpAlignedMem);
 	for(nLoop = 0; nLoop < _EXTRA_SOUND_SIZE; ++nLoop)
@@ -128,23 +128,23 @@ static int l_SoundLoadRaw(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfSound);
+		fclose(dsfSound);
 		return luaL_error(lState, "Unable to allocate %d bytes for sound memory", nSize);
 	}
 
 	// init the memory acquired and read in the data
-	nRead = DS_fread(cbTemp, 1, nSize, dsfSound);
+	nRead = fread(cbTemp, 1, nSize, dsfSound);
 
 	// make sure we read in something
 	if(nRead != nSize)
 	{
 		delete (amMem);
-		DS_fclose(dsfSound);
+		fclose(dsfSound);
 		return luaL_error(lState, "Can only read in %d bytes of tile sound data", nRead);
 	}
 
 	// close the file when we are done
-	DS_fclose(dsfSound);
+	fclose(dsfSound);
 
 	// create new sound object, Sound obj is responsible for delete memory
 	Sound * *  ppSound = NULL;

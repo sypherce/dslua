@@ -129,7 +129,7 @@ static int l_MusicLoadMod(lua_State * lState)
 	unsigned int nSize;
 
 	// open palette file in binary mode
-	DS_FILE * dsfMusic = DS_fopen(szFName, "rb");
+	FILE * dsfMusic = fopen(szFName, "rb");
 
 	if(NULL == dsfMusic)
 	{
@@ -137,7 +137,7 @@ static int l_MusicLoadMod(lua_State * lState)
 	}
 
 	// load music into memroy
-	nSize = DS_getFileSize(dsfMusic);
+	nSize = getFileSize(dsfMusic);
 	AlignedMemory * amMem = new AlignedMemory(5, nSize);
 	char *          cbTemp = (char *)(amMem->vpAlignedMem);
 	size_t nRead;
@@ -151,23 +151,23 @@ static int l_MusicLoadMod(lua_State * lState)
 	// make sure we have a valid pointer
 	if(NULL == cbTemp)
 	{
-		DS_fclose(dsfMusic);
+		fclose(dsfMusic);
 		return luaL_error(lState, "Unable to allocate %d bytes for music memory", nSize);
 	}
 
 	// init the memory acquired and read in the data
-	nRead = DS_fread(cbTemp, 1, nSize, dsfMusic);
+	nRead = fread(cbTemp, 1, nSize, dsfMusic);
 
 	// make sure we read in something
 	if(nRead != nSize)
 	{
 		delete (amMem);
-		DS_fclose(dsfMusic);
+		fclose(dsfMusic);
 		return luaL_error(lState, "Can only read in %d bytes of tile music data", nRead);
 	}
 
 	// close the file when we are done
-	DS_fclose(dsfMusic);
+	fclose(dsfMusic);
 
 	// create new music object, Music obj is responsible for delete memory
 	Music * *  ppMusic = NULL;

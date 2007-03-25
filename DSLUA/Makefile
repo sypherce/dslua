@@ -27,12 +27,9 @@ endif
 TARGET	:=	$(shell basename $(CURDIR))
 BUILD		:=	build
 SOURCES	:=	gfx source data \
-lib/lua-5.0.2 \
-lib/gba_nds_fat
+lib/lua-5.0.2
 INCLUDES	:=	./ include build data  \
-lib/zlib-1.2.3 \
-lib/lua-5.0.2 \
-lib/gba_nds_fat
+lib/lua-5.0.2
 RELEASE		:=	release
 TEXT		:=	text
 EXPORT_DIR := /c/ndsexamples/
@@ -90,8 +87,7 @@ PREFIX			:=	arm-eabi-
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	  := -lnds9
-LIBZ	  := 
+LIBS	  := -lfat -lnds9
 LIBSPA	  := -lpa9
 LIBDSWIFI := -ldswifi9
 
