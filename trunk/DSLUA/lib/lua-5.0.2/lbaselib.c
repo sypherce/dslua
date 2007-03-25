@@ -18,8 +18,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-#include "../source/DSFileIO.h"
-#include "../source/SimpleConsole.h"
+
 
 
 /*
@@ -40,11 +39,11 @@ static int luaB_print (lua_State *L) {
     s = lua_tostring(L, -1);  /* get result */
     if (s == NULL)
       return luaL_error(L, "`tostring' must return a string to `print'");
-    if (i>1) SimpleConsolePrintString( SCREEN_BOTTOM, "\t" );
-    SimpleConsolePrintString( SCREEN_BOTTOM, s );
+    if (i>1) fputs("\t", stdout);
+    fputs(s, stdout);
     lua_pop(L, 1);  /* pop result */
   }
-  SimpleConsolePrintLine( SCREEN_BOTTOM );
+  fputs("\n", stdout);
   return 0;
 }
 
