@@ -14,6 +14,7 @@
 #define lbaselib_c
 
 #include "lua.h"
+#include "../../source/SimpleConsole.h"
 
 #include "lauxlib.h"
 #include "lualib.h"
@@ -39,11 +40,11 @@ static int luaB_print (lua_State *L) {
     s = lua_tostring(L, -1);  /* get result */
     if (s == NULL)
       return luaL_error(L, "`tostring' must return a string to `print'");
-    if (i>1) fputs("\t", stdout);
-    fputs(s, stdout);
+    if (i>1) SimpleConsolePrintString( SCREEN_BOTTOM, "\t" );
+    SimpleConsolePrintString( SCREEN_BOTTOM, s );
     lua_pop(L, 1);  /* pop result */
   }
-  fputs("\n", stdout);
+  SimpleConsolePrintLine( SCREEN_BOTTOM );
   return 0;
 }
 

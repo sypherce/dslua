@@ -67,6 +67,18 @@ static int l_DirectoryClose(lua_State * lState)
 	return 1;
 }
 
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_DirectoryChdir(lua_State * lState)
+{
+	const char *    szFName = luaL_checkstring(lState, 1);
+	int returnVal = chdir (szFName);
+
+	lua_pushnumber(lState, returnVal);
+	
+	return 1;
+}
+
 static int l_DirectoryIsDir(lua_State * lState)
 {
 	lua_pushnumber(lState, (int)(fStat.st_mode & S_IFDIR));
@@ -84,6 +96,7 @@ static const struct luaL_reg DSLDirectoryLib[] = {
 	{"Next", l_DirectoryNext},
 	{"Reset", l_DirectoryReset},
 	{"Close", l_DirectoryClose},
+	{"Chdir", l_DirectoryChdir},
 	{"IsDir", l_DirectoryIsDir},
 	{"IsFile", l_DirectoryIsFile},
 	{NULL, NULL}

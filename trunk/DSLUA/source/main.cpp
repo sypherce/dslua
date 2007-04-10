@@ -99,51 +99,48 @@ int main(int argc, char * * argv)
 		{
 			// show menu
 			initDisplay();
-			SimpleConsoleClearScreem(SCREEN_TOP);
-			SimpleConsoleClearScreem(SCREEN_BOTTOM);
-			bool bSuccess = false;
-			bSuccess = true;
-				char szTarget[ DS_MAX_FILENAME_LENGTH + DS_MAX_FILENAME_LENGTH ];
-				buildPath(szTarget, szPath, szFile);
-				chdir(szPath);
+			char szTarget[ DS_MAX_FILENAME_LENGTH + DS_MAX_FILENAME_LENGTH ];
+			buildPath(szTarget, szPath, szFile);
+			chdir(szPath);
 
 #ifdef DEBUG
-				SimpleConsolePrintStringCR(SCREEN_TOP, "Open LUA engine");
+			SimpleConsolePrintStringCR(SCREEN_TOP, "Open LUA engine");
 #endif
-				// init the Lua state machine
-				lua_State * lState = lua_open();   /* create state */
-				if(lState == NULL)
-				{
-					// TODO: display error message
-					l_message("DSLua", "cannot create state: not enough memory");
-					return EXIT_FAILURE;
-				}
+			// init the Lua state machine
+			lua_State * lState = lua_open();   /* create state */
+			if(lState == NULL)
+			{
+				// TODO: display error message
+				l_message("DSLua", "cannot create state: not enough memory");
+				return EXIT_FAILURE;
+			}
 
 #ifdef DEBUG
-				SimpleConsolePrintStringCR(SCREEN_TOP, "LUA state initialized");
+			SimpleConsolePrintStringCR(SCREEN_TOP, "LUA state initialized");
 #endif
-				// init the Lua state machine
-				// execute script
-				openstdlibs(lState);
+			// init the Lua state machine
+			// execute script
+			openstdlibs(lState);
 
-				int nStatus;
+			int nStatus;
 #ifndef DEBUG
-				PA_ResetSpriteSys();
-				PA_ResetBgSys();
+			PA_ResetSpriteSys();
+			PA_ResetBgSys();
 #endif
-				nStatus = executeLuaScript(lState, szTarget);
+			initDisplay();
+			nStatus = executeLuaScript(lState, szTarget);
 
-				// pause for a bit
-				if(nStatus)
-				{
-					waitUntilKeyPressed((bool *)&Pad.Held.Start);
-					//            } else {
-					//               waitVBLDelay( 60 );
-				}
+			// pause for a bit
+			if(nStatus)
+			{
+				waitUntilKeyPressed((bool *)&Pad.Held.Start);
+				//            } else {
+				//               waitVBLDelay( 60 );
+			}
 
-				// finished script, clean up
-				//lua_setgcthreshold(lState, 0);
-				lua_close(lState);
+			// finished script, clean up
+			//lua_setgcthreshold(lState, 0);
+			lua_close(lState);
 		}
 
 		// clean up
@@ -176,10 +173,6 @@ int   executeLuaScript(lua_State * lState, const char * szScriptName)
 		if(nResult != 0)
 		{
 			initDisplay();
-			SimpleConsoleClearScreem(SCREEN_TOP);
-			SimpleConsoleClearScreem(SCREEN_BOTTOM);
-			PA_InitText(SCREEN_TOP, 0);
-			PA_InitText(SCREEN_BOTTOM, 0);
 			PA_SetTextTileCol(SCREEN_TOP, PA_TEXT_RED);
 			PA_SetTextTileCol(SCREEN_BOTTOM, PA_TEXT_RED);
 			//         report( lState, nResult );
@@ -191,9 +184,6 @@ int   executeLuaScript(lua_State * lState, const char * szScriptName)
 	else
 	{
 		initDisplay();
-		SimpleConsoleClearScreem(SCREEN_TOP);
-		SimpleConsoleClearScreem(SCREEN_BOTTOM);
-		PA_InitText(SCREEN_BOTTOM, 0);
 		PA_SetTextTileCol(SCREEN_BOTTOM, PA_TEXT_RED);
 		sprintf(caTemp, "Failed to load: %d", nResult);
 		SimpleConsolePrintStringCR(SCREEN_BOTTOM, caTemp);
@@ -251,6 +241,9 @@ void  initDisplay()
 	SimpleConsoleClearScreem(SCREEN_BOTTOM);
 	PA_SetTextTileCol(SCREEN_TOP, PA_TEXT_WHITE);
 	PA_SetTextTileCol(SCREEN_BOTTOM, PA_TEXT_WHITE);
+	PA_SetScreenLight(SCREEN_TOP, 1);
+	PA_SetScreenLight(SCREEN_BOTTOM, 1);
+	PA_SetLedBlink(0,0);
 }
 
 //------------------------------------------------------------
