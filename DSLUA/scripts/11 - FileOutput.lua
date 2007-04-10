@@ -33,7 +33,7 @@ BGBotText = Screen.LoadTextBG()
 Screen.Initialize( SCREEN_BOTTOM, BGBotText )
 
 -- lets try to open a file and write to it
-fileName = "/cf/test.dat"
+fileName = "/scripts/test.dat"
 fout  = io.open( fileName, "wt" )
 if not fout then
   print( "Failed to open: " .. fileName )

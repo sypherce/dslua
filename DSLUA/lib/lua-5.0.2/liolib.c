@@ -742,9 +742,9 @@ LUALIB_API int luaopen_io (lua_State *L) {
   lua_pushvalue(L, -1);
   luaL_openlib(L, LUA_IOLIBNAME, iolib, 1);
   /* put predefined file handles into `io' table */
-  registerfile(L, stdin, "stdin", IO_INPUT);
-  registerfile(L, stdout, "stdout", IO_OUTPUT);
-  registerfile(L, stderr, "stderr", NULL);
+  //registerfile(L, stdin, "stdin", IO_INPUT);
+  //registerfile(L, stdout, "stdout", IO_OUTPUT);
+  //registerfile(L, stderr, "stderr", NULL);
   return 1;
 }
 
