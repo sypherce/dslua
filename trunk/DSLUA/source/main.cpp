@@ -245,13 +245,22 @@ void  initDisplay()
 	PA_SetScreenLight(SCREEN_BOTTOM, 1);
 	PA_SetLedBlink(0,0);
 }
+u32 vblCounter = 0;
+
+void vblFunc()
+{
+	vblCounter++;
+	PA_vblFunc();
+}
 
 //------------------------------------------------------------
 //------------------------------------------------------------
 bool  initializeEngine(void)
 {
+	irqInit();
 	PA_Init();       // Initialize PA_Lib
-	PA_InitVBL();    // Initialize a standard VBL
+	//PA_InitVBL();    // Initialize a standard VBL
+	irqSet(IRQ_VBLANK, vblFunc); 
 	PA_InitSound();  // initialize the sound system
 	PA_InitWifi();
 

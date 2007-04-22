@@ -32,12 +32,13 @@ static int l_WaitForAnyKey(lua_State * lState)
 
 	return 0;
 }
+extern u32 vblCounter;
 
 //------------------------------------------------------------
 //------------------------------------------------------------
 static int l_VBCount(lua_State * lState)
 {
-	lua_pushnumber(lState, 0);//broken, need to find new heartbeat
+	lua_pushnumber(lState, vblCounter);//broken, need to find new heartbeat
 	return 1;
 }
 
