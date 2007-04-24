@@ -13,7 +13,7 @@ extern "C" {
 class BackGround
 {
 public:
-enum           BGType {BG_3D, BG_LARGE, BG_EXT_ROTATE, BG_ROTATE, BG_BUFF8BIT, BG_TEXT, BG_KEYBOARD};
+enum           BGType {BG_3D, BG_LARGE, BG_EXT_ROTATE, BG_ROTATE, BG_BUFF8BIT, BG_BUFF16BIT, BG_TEXT, BG_KEYBOARD};
 
 public:
 const BGType m_bgType;
@@ -87,6 +87,24 @@ int         initializeOnScreen(const int, const int);
 };
 
 //------------------------------------------------------------
+//----- Buff16BitBackGround class
+//------------------------------------------------------------
+class Buff16BitBackGround : public BackGround
+{
+public:
+Buff16BitBackGround();
+~Buff16BitBackGround();
+
+void  plot_16(const int, const int, const int, const int, const int);
+int  getPixel_16(const int, const int);
+void  line_16(const int, const int, const int, const int, const int, const int, const int);
+void  clear_16();
+
+const char * toString();
+int         initializeOnScreen(const int, const int);
+};
+
+//------------------------------------------------------------
 //----- TileBackGround class
 //------------------------------------------------------------
 class TileBackGround : public BackGround
@@ -127,9 +145,10 @@ ExternDeclare(BackGround, BackGround *);
 ExternDeclare(TextBackGround, TextBackGround *);
 ExternDeclare(KeyboardBackGround, KeyboardBackGround *);
 ExternDeclare(Buff8BitBackGround, Buff8BitBackGround *);
+ExternDeclare(Buff16BitBackGround, Buff16BitBackGround *);
 ExternDeclare(TileBackGround, TileBackGround *);
 
-#define AVAILABLE_BGS   "TextBackGround", "KeyboardBackGround", "Buff8BitBackGround", "TileBackGround"
+#define AVAILABLE_BGS   "TextBackGround", "KeyboardBackGround", "Buff8BitBackGround", "Buff16BitBackGround", "TileBackGround"
 
 #ifdef __cplusplus
 }          // extern "C"

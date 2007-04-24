@@ -67,6 +67,21 @@ static int l_createBuff8BitBackGround(lua_State * lState)
 
 //------------------------------------------------------------
 //------------------------------------------------------------
+static int l_createBuff16BitBackGround(lua_State * lState)
+{
+	Buff16BitBackGround * *   ppbgTemp = NULL;
+
+	// get Lua to create an user data item first
+	ppbgTemp = pushBuff16BitBackGround(lState);
+
+	// now initialize it
+	*ppbgTemp = new Buff16BitBackGround();
+
+	return 1;
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
 static int l_createTileBackGround(lua_State * lState)
 {
 	TileBackGround * *   ppbgTemp = NULL;
@@ -212,6 +227,7 @@ static const struct luaL_reg DSLScreenLib [] =
 	{"LoadTextBG", l_createTextBackGround},
 	{"LoadKeyboardBG", l_createKeyboardBackGround},
 	{"Load8BitBG", l_createBuff8BitBackGround},
+	{"Load16BitBG", l_createBuff16BitBackGround},
 	{"LoadTileBG", l_createTileBackGround},
 	{"Initialize", l_ScreenInitialize},
 	{"ResetAll", l_ResetGraphics},
@@ -228,6 +244,7 @@ int luaopen_DSLScreenLib(lua_State * lState)
 	TextBackGround_register(lState);
 	KeyboardBackGround_register(lState);
 	Buff8BitBackGround_register(lState);
+	Buff16BitBackGround_register(lState);
 	TileBackGround_register(lState);
 
 	// register other graphics library
