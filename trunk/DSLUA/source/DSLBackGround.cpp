@@ -371,6 +371,158 @@ static const luaL_reg KeyboardBackGround_meta[] = {
 UserdataRegister(KeyboardBackGround, KeyboardBackGround_methods, KeyboardBackGround_meta);
 
 //------------------------------------------------------------
+//----- Buff16BitBackGround class
+//------------------------------------------------------------
+UserdataStubs(Buff16BitBackGround, Buff16BitBackGround *);
+
+Buff16BitBackGround::Buff16BitBackGround()
+	:  BackGround(BG_BUFF16BIT)
+{
+}
+
+int Buff16BitBackGround::initializeOnScreen(const int nScreen, const int nBG)
+{
+	// init parent BG first
+	BackGround::initializeOnScreen(nScreen, nBG);
+
+	// init 8bit mode
+	PA_Init16bitBg(nScreen, nBG);
+	return 0;
+}
+
+Buff16BitBackGround::~Buff16BitBackGround()
+{
+	// delete background
+	if(m_nScreen >= 0)
+	{
+		PA_DeleteBg(m_nScreen, m_nPriority);
+	}
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void Buff16BitBackGround::plot_16(const int nX, const int nY, const int nRed, const int nGreen, const int nBlue)
+{
+	// Draws a pixel on screen
+	PA_Put16bitPixel(m_nScreen, nX, nY, PA_RGB(nRed, nGreen, nBlue));
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+int Buff16BitBackGround::getPixel_16(const int nX, const int nY)
+{
+	return PA_Get16bitPixel(m_nScreen, nX, nY);
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void Buff16BitBackGround::line_16(const int nX1, const int nY1, const int nX2, const int nY2, const int nRed, const int nGreen, const int nBlue)
+{
+	// Draws a line on the screen
+	PA_Draw16bitLine(m_nScreen, nX1, nY1, nX2, nY2, PA_RGB(nRed, nGreen, nBlue));
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+void Buff16BitBackGround::clear_16()
+{
+	// Clears the screen
+	PA_Clear16bitBg(m_nScreen);
+}
+
+const char * Buff16BitBackGround::toString()
+{
+	return "Buff16BitBackGround";
+}
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+static int l_16BGPlot(lua_State * lState)
+{
+	Buff16BitBackGround * * ppTBG = checkBuff16BitBackGround(lState, 1);
+	int nX = luaL_checkint(lState, 2);
+	int nY = luaL_checkint(lState, 3);
+	int nRed = luaL_checkint(lState, 4);
+	int nGreen = luaL_checkint(lState, 5);
+	int nBlue = luaL_checkint(lState, 6);
+
+	(*ppTBG)->plot_16(nX, nY, nRed, nGreen, nBlue);
+
+	return 0;
+}
+
+static int l_16BGGetPixel(lua_State * lState)
+{
+	Buff16BitBackGround * * ppTBG = checkBuff16BitBackGround(lState, 1);
+	int nX = luaL_checkint(lState, 2);
+	int nY = luaL_checkint(lState, 3);
+
+	int retVal = (*ppTBG)->getPixel_16(nX, nY);
+
+	lua_pushnumber(lState, retVal);
+	return retVal;
+}
+
+static int l_16BGLine(lua_State * lState)
+{
+	Buff16BitBackGround * * ppTBG = checkBuff16BitBackGround(lState, 1);
+	int nX1 = luaL_checkint(lState, 2);
+	int nY1 = luaL_checkint(lState, 3);
+	int nX2 = luaL_checkint(lState, 4);
+	int nY2 = luaL_checkint(lState, 5);
+	int nRed = luaL_checkint(lState, 6);
+	int nGreen = luaL_checkint(lState, 7);
+	int nBlue = luaL_checkint(lState, 8);
+
+	(*ppTBG)->line_16(nX1, nY1, nX2, nY2, nRed, nGreen, nBlue);
+
+	return 0;
+}
+
+static int l_16BGClear(lua_State * lState)
+{
+	Buff16BitBackGround * * ppTBG = checkBuff16BitBackGround(lState, 1);
+
+	(*ppTBG)->clear_16();
+
+	return 0;
+}
+
+static int l_Buff16BitBackGroundGC(lua_State * lState)
+{
+	Buff16BitBackGround * *   pBGTemp = toBuff16BitBackGround(lState, 1);
+
+	if(*pBGTemp)
+	{
+		delete (*pBGTemp);
+		*pBGTemp = NULL;
+	}
+	return 0;
+}
+
+static int l_Buff16BitBackGroundToString(lua_State * lState)
+{
+	lua_pushstring(lState, (*toBuff16BitBackGround(lState, 1))->toString());
+	return 1;
+}
+
+static const luaL_reg Buff16BitBackGround_methods[] = {
+	{"Plot", l_16BGPlot},
+	{"GetPixel", l_16BGGetPixel},
+	{"Line", l_16BGLine},
+	{"Clear", l_16BGClear},
+	{0, 0}
+};
+static const luaL_reg Buff16BitBackGround_meta[] = {
+	{"__gc", l_Buff16BitBackGroundGC},
+	{"__tostring", l_Buff16BitBackGroundToString},
+	{0, 0}
+};
+
+UserdataRegister(Buff16BitBackGround, Buff16BitBackGround_methods, Buff16BitBackGround_meta);
+
+
+//------------------------------------------------------------
 //----- Buff8BitBackGround class
 //------------------------------------------------------------
 UserdataStubs(Buff8BitBackGround, Buff8BitBackGround *);

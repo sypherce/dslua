@@ -26,6 +26,7 @@ extern "C"
 //#include "DSLKeyboard.h"
 //#include "DSLGL.h"
 #include "DSLDir.h"
+#include "DSLImage.h"
 //#include "resetmem.h"
 
 #define buildPath(a,b,c) \
@@ -55,6 +56,7 @@ static const luaL_reg lualibs[] = {
 //	{"keyboard", luaopen_DSLKeyboardLib},
 //	{"dsgl", luaopen_DSLGLLib},
 	{"directory", luaopen_DSLDirectoryLib},
+	{"image", luaopen_DSLImageLib},
 	{NULL, NULL}
 };
 
