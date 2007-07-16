@@ -10,20 +10,17 @@
 
 ==Welcome to DSLua==
 
-DSLua is a port of the Lua scripting language to the Nintendo DS. Originally made by waruwaru, now maintained by sypherce, daltonlaffs, and me, Jeremysr. You can get it or the source code from DSLua.com, on the download page. This document will explain how to use DSLua and write programs for it.
+DSLua is a port of the [http://www.lua.org/ Lua scripting language] to the [http://www.nintendo.com/systemsds Nintendo DS]. Originally made by waruwaru, now maintained by sypherce, daltonlaffs, and me, Jeremysr. You can get it or the source code from [http://www.dslua.com/component/option,com_docman/task,cat_view/gid,9/Itemid,21/ DSLua.com], on the download page. This document will explain how to use DSLua and write programs for it.
 
 ==CF Flavor==
 
 DSLua comes in two flavors: CF flavor, and GBFS flavor. This section will explain the CF flavor.
 
+==GBFS Flavor==
 
+The GBFS flavor packs your lua files (and graphics, music, sound effects, whatever you need to run your program) into a single DS executable, so you don't have to have all the lua files on your storage device, like in the CF flavor.
 
-
-GBFS Flavour
-
-The GBFS flavour packs your lua files (and graphics, music, sound effects, whatever you need to run your program) into a single DS executable, so you don't have to have all the lua files on your storage device, like in the CF flavour.
-
-To pack the files, you must first put your files in the scripts directory (found in the main directory of DSLua GBFS flavour). Then, run PACK.BAT. It should put all the files from the scripts directory and pack them into bundle/DSLUA-PACK.nds (or .ds.gba or .sc.nds). Then you run whichever one is compatible with your homebrew device, and when run it will let you choose a packed file to run (lua files will be highlighted in green.)
+To pack the files, you must first put your files in the scripts directory (found in the main directory of DSLua GBFS flavor). Then, run PACK.BAT. It should put all the files from the scripts directory and pack them into bundle/DSLUA-PACK.nds (or .ds.gba or .sc.nds). Then you run whichever one is compatible with your homebrew device, and when run it will let you choose a packed file to run (lua files will be highlighted in green).
 
 ==Auto-start==
 
