@@ -1,0 +1,30 @@
+=DSLua Documentation=
+ * DSLua Information: How to Setup and Use DSLua 0.8 | 0.7 | 0.6
+
+
+ * Function Documentation: Text Output Functions
+ * System Functions
+ * Sprite Functions
+ * Frame Strip Functions
+ * Stylus Functions
+ * Sound Functions
+ * Screen Set-up Functions
+ * Button Input Functions
+ * Music Functions
+ * Tiled Background Functions
+ * 8-Bit Background Functions
+ * Wifi Functions
+ * Socket Functions
+ * Microphone Functions
+ * Keyboard Functions
+ * 3D Functions
+ * Rumble Functions
+ * 16-Bit Background Functions
+ * Image Functions
+ * Directory Functions
+
+Back to [http://www.dslua.com/ DSLua.com]
+
+
+
+
