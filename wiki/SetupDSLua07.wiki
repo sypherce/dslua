@@ -25,8 +25,8 @@ DSLua is a port of the Lua scripting language to the Nintendo DS. Originally mad
 
 First find some games/apps for DSLua at these or other web pages:
 
- * DSLua.com projects forum
- * Dev-Scene.com: DSLua Releases
+ * [http://www.dslua.com/component/option,com_smf/Itemid,19/board,8.0 DSLua.com projects forum]
+ * [http://www.dev-scene.com/NDS/DSLua_Releases Dev-Scene.com: DSLua Releases]
 
 I recommend making a directory on the root of your card called "dslua", and putting all the DSLua homebrew you download in there, each in their own directory inside the dslua directory. This is because many DSLua projects come with around 10 to 50 different files for all the code, graphics, save files, and sound/music. Also a lot of games/apps using the Auto-start feature want you to have the game directory inside the /dslua directory.
 
