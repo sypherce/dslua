@@ -1,5 +1,5 @@
 =DSLua Documentation=
- * DSLua Information: How to Setup and Use DSLua 0.8 | 0.7 | 0.6
+ * [SetupDSLua08 DSLua Information: How to Setup and Use DSLua 0.8] | [SetupDSLua07 0.7] | [SetupDSLua06 0.6]
 
 
  * Function Documentation: Text Output Functions
@@ -24,7 +24,6 @@
  * Directory Functions
 
 Back to [http://www.dslua.com/ DSLua.com]
-
 
 
 
