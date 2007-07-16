@@ -1,16 +1,10 @@
 #ifndef _DSLMIC_H_
 #define _DSLMIC_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+//INCLUDES
+#include "lua.h"//LUA Header File - Included by default
 
-#include "lua.h"
-
-int luaopen_DSLMicLib( lua_State* );
-
-#ifdef __cplusplus
-}	   // extern "C"
-#endif
+//FUNCTIONS
+int luaopen_DSLMicLib( lua_State* );//Enables the Mic Functions
 
 #endif // _DSLMIC_H_
