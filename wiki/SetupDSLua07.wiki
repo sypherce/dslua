@@ -10,14 +10,14 @@
 
 ==Welcome to DSLua==
 
-DSLua is a port of the Lua scripting language to the Nintendo DS. Originally made by waruwaru, now maintained by sypherce, daltonlaffs, and me, Jeremysr. You can get it or the source code from DSLua.com, on the download page. This document will explain how to use DSLua and write programs for it.
+DSLua is a port of the [http://www.lua.org/ Lua scripting language] to the [http://www.nintendo.com/systemsds Nintendo DS]. Originally made by waruwaru, now maintained by sypherce, daltonlaffs, and me, Jeremysr. You can get it or the source code from [http://www.dslua.com/component/option,com_docman/task,cat_view/gid,9/Itemid,21/ DSLua.com], on the download page. This document will explain how to use DSLua and write programs for it.
 
 ==Installation==
 
- # Download DSLua 0.7 from the DSLua.com download page.
+ # Download DSLua 0.7 from the [http://www.dslua.com/component/option,com_docman/task,cat_view/gid,9/Itemid,21/ DSLua.com download page].
  # Unzip it with some program like WinZip.
- # Patch the DSLua ROM (either DSLua.nds or DSLua.sc.nds or DSLua.ds.gba) with DLDI.
- # Copy the scripts directory, which was in the download, to the root directory of your card. You only need scripts/main.lua which is a file browser that lets you execute lua scripts (DSLua won't work without it.) All the other files are just example programs.
+ # Patch the DSLua ROM (either DSLua.nds or DSLua.sc.nds or DSLua.ds.gba) with [http://chishm.drunkencoders.com/DLDI/ DLDI].
+ # Copy the _scripts_ directory, which was in the download, to the root directory of your card. You only need scripts/main.lua which is a file browser that lets you execute lua scripts (DSLua won't work without it.) All the other files are just example programs.
  # Copy the DSLua ROM to your card.
  # That's all you have to do, it's now installed!
 
