@@ -56,3 +56,5 @@ With this example it will output three files: input.raw, input.map, and output.p
     * [http://www.lua.org/manual/ Lua Manual (DSLua currently uses Lua 5.0)]
     * [http://www.dslua.com/ DSLua.com (good place to ask for help)]
     * [http://www.bio-gaming.com/jeremy/dslua/index.php?act=tutorials Jeremysr's DSLua Tutorials]
+
+[DSLuaDocumentation Back to index]
