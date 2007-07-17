@@ -6,12 +6,12 @@
  * `TextBackground:PrintXY()`
  * `TextBackground:Clear()`
 
-==`TextBackground:SetColor( color )`==
+==`TextBackground:SetColor(color)`==
  Set the text color for that background. All previously printed text on the background will stay the same color, only the text that is printed after the `SetColor` function is affected.
 
  _*color*_ can be a number from 0 to 9. 0 = white, 1 = red, 2 = green, 3 = blue, 4 = purple, 5 = cyan, 6 = yellow, 7 = light gray, 8 = dark gray, 9 = black.
 
-==`TextBackground:PrintXY( x, y, text )`==
+==`TextBackground:PrintXY(x, y, text)`==
  Print text to the screen.
 
  _*x*_ can be a number from 0 to 31. It controls where the text will start printing to, horizontally.
@@ -24,7 +24,6 @@
  Clear all text on that background.
 
 [DSLuaDocumentation Back to index]
-
 
 
 
