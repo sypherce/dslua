@@ -1,4 +1,4 @@
-#summary This page explains the rumble functions
+#summary rumble functions
 =Rumble Functions=
 
  Control the rumble pack.
