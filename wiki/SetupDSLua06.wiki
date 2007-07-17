@@ -1,4 +1,4 @@
-how to setup DSLua 0.6
+#summary how to setup DSLua 0.6
 =How to Setup and Use DSLua=
 
  * Welcome to DSLua
