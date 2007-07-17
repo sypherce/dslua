@@ -1,28 +1,31 @@
 #summary Documentation for DSLua 0.7
 =DSLua Documentation=
- * [SetupDSLua08 DSLua Information: How to Setup and Use DSLua 0.8] | [SetupDSLua07 0.7] | [SetupDSLua06 0.6]
+==DSLua Information:==
+ * [SetupDSLua08 How to Setup and Use DSLua 0.8] | [SetupDSLua07 0.7] | [SetupDSLua06 0.6]
 
- * Function Documentation: Text Output Functions
- * System Functions
- * Sprite Functions
- * Frame Strip Functions
- * Stylus Functions
- * Sound Functions
- * Screen Set-up Functions
- * Button Input Functions
- * Music Functions
- * Tiled Background Functions
- * 8-Bit Background Functions
- * Wifi Functions
- * Socket Functions
- * Microphone Functions
- * Keyboard Functions
- * 3D Functions
- * Rumble Functions
- * 16-Bit Background Functions
- * Image Functions
- * Directory Functions
+==Function Documentation:==
+ * [TextOutputFunctions Text Output Functions]
+ * [SystemFunctions System Functions]
+ * [SpriteFunctions Sprite Functions]
+ * [FrameStripFunctions Frame Strip Functions]
+ * [StylusFunctions Stylus Functions]
+ * [SoundFunctions Sound Functions]
+ * [ScreenSetupFunctions Screen Setup Functions]
+ * [ButtonInputFunctions Button Input Functions]
+ * [MusicFunctions Music Functions]
+ * [TiledBackgroundFunctions Tiled Background Functions]
+ * [8BitBackgroundFunctions 8-Bit Background Functions]
+ * [WifiFunctions Wifi Functions]
+ * [SocketFunctions Socket Functions]
+ * [MicrophoneFunctions Microphone Functions]
+ * [KeyboardFunctions Keyboard Functions]
+ * [3DFunctions 3D Functions]
+ * [RumbleFunctions Rumble Functions]
+ * [16BitBackgroundFunctions 16-Bit Background Functions]
+ * [ImageFunctions Image Functions]
+ * [DirectoryFunctions Directory Functions]
 
 Back to [http://www.dslua.com/ DSLua.com]
+
 
 
