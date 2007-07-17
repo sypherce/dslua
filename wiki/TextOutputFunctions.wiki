@@ -1,0 +1,28 @@
+#summary This page explains the text output functions
+=Text Output Functions=
+
+These functions are used to output text to the screen. To initialize a screen to display text, see the Screen.LoadTextBG() and Screen.Initialize() functions.
+
+ * TextBackground:SetColor()
+ * TextBackground:PrintXY()
+ * TextBackground:Clear()
+
+==TextBackground:SetColor( color )==
+
+Set the text color for that background. All previously printed text on the background will stay the same color, only the text that is printed after the SetColor function is affected.
+
+*_color_* can be a number from 0 to 9. 0 = white, 1 = red, 2 = green, 3 = blue, 4 = purple, 5 = cyan, 6 = yellow, 7 = light grey, 8 = dark grey, 9 = black.
+
+==TextBackground:PrintXY( x, y, text )==
+
+Print text to the screen.
+
+*_x_* can be a number from 0 to 31. It controls where the text will start printing to, horizontally.
+*_y_* can be a number from 0 to 23. It controls where the text will start printing to, vertically.
+*_text_* is the string that will be printed.
+
+==TextBackground:Clear()==
+
+Clear all text on that background.
+
+[DSLuaDocumentation Back to index]
