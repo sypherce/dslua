@@ -1,4 +1,4 @@
-#summary This is the page explains how to setup DSLua 0.7
+#summary This page explains how to setup DSLua 0.7
 =How to Setup and Use DSLua=
 
  * Welcome to DSLua
