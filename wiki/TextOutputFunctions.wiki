@@ -1,4 +1,4 @@
-#summary This page explains the text output functions
+#summary text output functions
 =Text Output Functions=
  These functions are used to output text to the screen. To initialize a screen to display text, see the `Screen.LoadTextBG()` and `Screen.Initialize()` functions.
 
@@ -24,12 +24,3 @@
  Clear all text on that background.
 
 [DSLuaDocumentation Back to index]
-
-
-
-
-
-
-
-
-
