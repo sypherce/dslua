@@ -7,7 +7,7 @@
  * `Stylus.Released()`
  * `Stylus.Newpress()`
 
-==`Stylus.X(`)==
+==`Stylus.X()`==
  Returns the `X` position of the stylus on the touch screen as an integer between 0 and 255.
 
 ==`Stylus.Y()`==
