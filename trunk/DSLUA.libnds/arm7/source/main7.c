@@ -1,6 +1,7 @@
 #include <nds.h>
 #include <stdlib.h>
 #include <dswifi7.h>
+#include "ndsx_brightness.h"
 
 void startSound(int sampleRate, const void* data, u32 bytes, u8 channel, u8 vol,  u8 pan, u8 format)
 {
@@ -143,7 +144,7 @@ void arm7_fifo()//check incoming fifo messages
 
         // Pass message through handlers --Lick
 		if(NDSX_ARM7_WifiSync(msg)) continue;
-        //if(NDSX_ARM7_BrightnessFifo(msg)) continue;
+        if(NDSX_ARM7_BrightnessFifo(msg)) continue;
     }
 }
 

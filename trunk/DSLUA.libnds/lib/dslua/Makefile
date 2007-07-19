@@ -19,7 +19,7 @@ TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
-INCLUDES	:=	include ../lua-5.1.2/include
+INCLUDES	:=	include ../../common/include ../lua-5.1.2/include
 
 #---------------------------------------------------------------------------------
 # options for code generation
