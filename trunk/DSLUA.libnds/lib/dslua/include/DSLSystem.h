@@ -21,6 +21,6 @@
 extern int vblankCount;//Counter for VBlanks since program start
 
 //FUNCTIONS
-int luaopen_DSLSystemLib( lua_State* );//Enables the System Functions
+int luaopen_DSLSystemLib(lua_State*);//Enables the System Functions
 
 #endif // _DSLSYSTEM_H_

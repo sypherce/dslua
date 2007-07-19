@@ -13,10 +13,11 @@
 
 #include "lauxlib.h"
 #include "lualib.h"
-
-#include "DSLPads.h"
-#include "DSLStylus.h"
+#include "DSLDirectory.h"
 #include "DSLMic.h"
+#include "DSLPads.h"
+#include "DSLRumble.h"
+#include "DSLStylus.h"
 #include "DSLSystem.h"
 
 #define VCOUNT (*((u16 volatile *) 0x04000006))
@@ -52,7 +53,6 @@ void arm9_fifo()//check incoming fifo messages
 
         // Pass message through handlers --Lick
 		if(NDSX_ARM9_WifiSync(msg)) continue;
-        //if(NDSX_ARM7_BrightnessFifo(msg)) continue;
     }
 }
 
@@ -64,18 +64,12 @@ void arm9_fifo()//check incoming fifo messages
 static int dolibrary (lua_State *L, const char *name)
 {
 	if(0) return 1;
-	//if(strcmp(name, "text") == 0) luaopen_(L);
-	//else if(strcmp(name, "sound") == 0) luaopen_(L);
-	//else if(strcmp(name, "music") == 0) luaopen_(L);
-	//else if(strcmp(name, "screen") == 0) luaopen_(L);
-	//else if(strcmp(name, "pads") == 0) luaopen_(L);
-	//else if(strcmp(name, "stylus") == 0) luaopen_(L);
-	else if(strcmp(name, "mic") == 0) luaopen_DSLMicLib(L);
-	else if(strcmp(name, "pads") == 0) luaopen_DSLPadsLib(L);
-	else if(strcmp(name, "stylus") == 0) luaopen_DSLStylusLib(L);
+	else if(strcmp(name, "directory") == 0) luaopen_DSLMicLib(L);
 	else if(strcmp(name, "dslua") == 0) luaopen_DSLSystemLib(L);
-	//else if(strcmp(name, "dslua") == 0) luaopen_(L);
-	//else if(strcmp(name, "wifi") == 0) luaopen_(L);
+	else if(strcmp(name, "mic") == 0) luaopen_DSLDirectoryLib(L);
+	else if(strcmp(name, "pads") == 0) luaopen_DSLPadsLib(L);
+	else if(strcmp(name, "rumble") == 0) luaopen_DSLRumbleLib(L);
+	else if(strcmp(name, "stylus") == 0) luaopen_DSLStylusLib(L);
 	else return 1;
 	return 0;
 }
@@ -195,10 +189,12 @@ int main(int argc, char* argv[])
 	lua_gc(L, LUA_GCSTOP, 0);  /* stop collector during initialization */
 	luaL_openlibs(L);  /* open libraries */
 	//dolibrary(L, "mic");
+	dolibrary(L, "directory");
+	dolibrary(L, "dslua");
 	dolibrary(L, "mic");
 	dolibrary(L, "pads");
+	dolibrary(L, "rumble");
 	dolibrary(L, "stylus");
-	dolibrary(L, "dslua");
 	lua_gc(L, LUA_GCRESTART, 0);
  if (L==NULL) fatal("not enough memory for state");
  //s.argc=argc;

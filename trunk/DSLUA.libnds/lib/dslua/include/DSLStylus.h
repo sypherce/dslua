@@ -9,6 +9,6 @@
 extern touchPosition touch;//Declaration of the main stylus variable
 
 //FUNCTIONS
-int luaopen_DSLStylusLib( lua_State* );//Enables the Stylus Functions
+int luaopen_DSLStylusLib(lua_State*);//Enables the Stylus Functions
 
 #endif // _DSLSTYLUS_H_
