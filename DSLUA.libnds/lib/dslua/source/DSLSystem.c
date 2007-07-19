@@ -2,6 +2,7 @@
 #include "lua.h"//LUA Header File - Included by default
 #include "lauxlib.h"//LUA Auxilary Library Header File - Included by default
 #include "DSLSystem.h"//This files own header file
+#include "ndsx_brightness.h"//brightness\light declarations
 
 static int l_WaitForAnyKey(lua_State* lState)
 {
@@ -144,16 +145,38 @@ static int l_LidClosed(lua_State* lState)
 
 static int l_SetScreenLight(lua_State* lState)
 {
-	//int screen = luaL_checkint(lState, 1);
-	//int light = luaL_checkint(lState, 2);
-	//PA_SetScreenLight(screen, light);//lua_pushboolean( lState, PA_LidClosed() );
+	int screen = luaL_checkint(lState, 1);
+	int light = luaL_checkint(lState, 2);
+
+	if(screen == 0)
+	{
+		if(light == 0)
+			NDSX_SetBottomBacklight_Off();
+		else if(light == 1)
+			NDSX_SetBottomBacklight_On();
+	}
+	else if(screen == 1)
+	{
+		if(light == 0)
+			NDSX_SetTopBacklight_Off();
+		else if(light == 1)
+			NDSX_SetTopBacklight_On();
+	}
 
 	return 1;
 }
 
 static int l_SetDSLBrightness(lua_State* lState)
 {
-	//int brightness = luaL_checkint(lState, 1);
+	int brightness = luaL_checkint(lState, 1);
+	if(brightness == 0)
+		NDSX_SetBrightness_0();
+	else if(brightness == 1)
+		NDSX_SetBrightness_1();
+	else if(brightness == 2)
+		NDSX_SetBrightness_2();
+	else if(brightness == 3)
+		NDSX_SetBrightness_3();
 	//PA_SetDSLBrightness(brightness);//lua_pushboolean( lState, PA_LidClosed() );
 
 	return 1;
@@ -161,8 +184,9 @@ static int l_SetDSLBrightness(lua_State* lState)
 
 static int l_SetLedBlink(lua_State* lState)
 {
-	//int blink = luaL_checkint(lState, 1);
-	//int speed = luaL_checkint(lState, 2);
+	int blink = luaL_checkint(lState, 1);
+	int speed = luaL_checkint(lState, 2);
+	
 	//PA_SetLedBlink(blink, speed);//lua_pushboolean( lState, PA_LidClosed() );
 
 	return 1;

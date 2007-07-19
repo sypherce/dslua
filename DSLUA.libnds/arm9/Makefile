@@ -16,7 +16,7 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 BUILD		:=	build
 SOURCES		:=	source  
-INCLUDES	:=	include ../lib/lua-5.1.2/include  ../lib/dslua/include
+INCLUDES	:=	include ../common/include ../lib/lua-5.1.2/include  ../lib/dslua/include
 DATA		:=
 
 #---------------------------------------------------------------------------------
