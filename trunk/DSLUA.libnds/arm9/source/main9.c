@@ -69,6 +69,7 @@ static int dolibrary (lua_State *L, const char *name)
 	else if(strcmp(name, "mic") == 0) luaopen_DSLDirectoryLib(L);
 	else if(strcmp(name, "pads") == 0) luaopen_DSLPadsLib(L);
 	else if(strcmp(name, "rumble") == 0) luaopen_DSLRumbleLib(L);
+	else if(strcmp(name, "sound") == 0) Sound_register(L);
 	else if(strcmp(name, "stylus") == 0) luaopen_DSLStylusLib(L);
 	else return 1;
 	return 0;
@@ -174,7 +175,10 @@ int main(int argc, char* argv[])
 		irqSet(IRQ_VBLANK, vblFunction);//setup timer IRQ
 		irqEnable(IRQ_VBLANK);
 
-
+	setGenericSound(	11025,	/* sample rate */
+						127,	/* volume */
+						64,		/* panning */
+						1 );	/* sound format*/
 
  //struct Smain s;
  //int i=doargs(argc,argv);
@@ -194,6 +198,7 @@ int main(int argc, char* argv[])
 	dolibrary(L, "mic");
 	dolibrary(L, "pads");
 	dolibrary(L, "rumble");
+	dolibrary(L, "sound");
 	dolibrary(L, "stylus");
 	lua_gc(L, LUA_GCRESTART, 0);
  if (L==NULL) fatal("not enough memory for state");

@@ -13,8 +13,6 @@ static int l_StartRecording(lua_State* lState)
 	return 1;
 }
 
-
-
 static int l_GetVol(lua_State* lState)
 {
 	printf("hello");

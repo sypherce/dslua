@@ -7,4 +7,4 @@
 //FUNCTIONS
 int luaopen_DSLMicLib(lua_State*);//Enables the Mic Functions
 
-#endif // _DSLMIC_H_
+#endif//_DSLMIC_H_
