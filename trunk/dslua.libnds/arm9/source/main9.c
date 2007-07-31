@@ -9,11 +9,15 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#include "command.h"
+
 #include "lua.h"
 
 #include "lauxlib.h"
 #include "lualib.h"
+#include "mikmod9.h"
 #include "DSLDirectory.h"
+#include "DSLMusic.h"
 #include "DSLMic.h"
 #include "DSLPads.h"
 #include "DSLRumble.h"
@@ -67,10 +71,13 @@ static int dolibrary (lua_State *L, const char *name)
 	else if(strcmp(name, "directory") == 0) luaopen_DSLMicLib(L);
 	else if(strcmp(name, "dslua") == 0) luaopen_DSLSystemLib(L);
 	else if(strcmp(name, "mic") == 0) luaopen_DSLDirectoryLib(L);
+	else if(strcmp(name, "music") == 0) Music_register(L);
 	else if(strcmp(name, "pads") == 0) luaopen_DSLPadsLib(L);
 	else if(strcmp(name, "rumble") == 0) luaopen_DSLRumbleLib(L);
+	else if(strcmp(name, "socket") == 0) WifiSocket_register(L);
 	else if(strcmp(name, "sound") == 0) Sound_register(L);
 	else if(strcmp(name, "stylus") == 0) luaopen_DSLStylusLib(L);
+	else if(strcmp(name, "wifi") == 0) luaopen_DSLWifiLib(L);
 	else return 1;
 	return 0;
 }
@@ -90,6 +97,7 @@ void vblFunction()
 {
 	scanKeys();
 	touch=touchReadXY();
+	if(modUpdate) MikMod_Update();
 	vblankCount++;//Test this
 }
 
@@ -126,6 +134,7 @@ static void fatal(const char* message)
 
 int main(int argc, char* argv[])
 {
+	powerON(POWER_ALL);
 	videoSetMode(0);//not using the main screen
 	videoSetModeSub(MODE_0_2D | DISPLAY_BG0_ACTIVE);//sub bg 0 will be used to print text
 	vramSetBankC(VRAM_C_SUB_BG);
@@ -180,6 +189,24 @@ int main(int argc, char* argv[])
 						64,		/* panning */
 						1 );	/* sound format*/
 
+	CommandInit();
+
+    /* register all the drivers */
+    MikMod_RegisterDriver(&drv_nds_sw);
+
+    /* register all the module loaders */
+    MikMod_RegisterLoader(&load_xm);
+
+    /* initialize the library */
+    md_mode |= DMODE_SOFT_MUSIC;
+	md_mixfreq = 22050;
+    if (MikMod_Init(""))
+	{
+        fprintf(stderr, "Could not initialize sound, reason: %s\n",
+                MikMod_strerror(MikMod_errno));
+        return;
+    }	
+
  //struct Smain s;
  //int i=doargs(argc,argv);
  //argc-=i; argv+=i;
@@ -187,7 +214,7 @@ int main(int argc, char* argv[])
  lua_State *L = lua_open();  /* create state */
 	if (L == NULL)
 	{
-		//l_message("DSLUA 0.7", "cannot create state: not enough memory");
+		printf("cannot create state: not enough memory");
 		return EXIT_FAILURE;
 	}
 	lua_gc(L, LUA_GCSTOP, 0);  /* stop collector during initialization */
@@ -196,10 +223,13 @@ int main(int argc, char* argv[])
 	dolibrary(L, "directory");
 	dolibrary(L, "dslua");
 	dolibrary(L, "mic");
+	dolibrary(L, "music");
 	dolibrary(L, "pads");
 	dolibrary(L, "rumble");
+	dolibrary(L, "socket");
 	dolibrary(L, "sound");
 	dolibrary(L, "stylus");
+	dolibrary(L, "wifi");
 	lua_gc(L, LUA_GCRESTART, 0);
  if (L==NULL) fatal("not enough memory for state");
  //s.argc=argc;

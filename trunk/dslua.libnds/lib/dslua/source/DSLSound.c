@@ -37,14 +37,13 @@ static int l_SoundRelease(lua_State * lState)
 
 static int l_SoundLoadRaw(lua_State * lState)
 {
-	const char *    szFName = luaL_checkstring(lState, 1);
+	const char *szFName = luaL_checkstring(lState, 1);
 	unsigned int nSize;
-	int nLoop;
 
 	// open palette file in binary mode
 	FILE *dsfSound = fopen(szFName, "rb");
 
-	if(NULL == dsfSound)
+	if(dsfSound == NULL)
 	{
 		return luaL_error(lState, "Failed to open raw sound file '%s'", szFName);
 	}

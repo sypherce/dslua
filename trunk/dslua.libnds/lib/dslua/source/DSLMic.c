@@ -5,9 +5,9 @@
 
 static int l_StartRecording(lua_State* lState)
 {
-	u8 *buffer = (u8*)luaL_checkstring(lState, 1);
+	u16 *buffer = (u16*)luaL_checkstring(lState, 1);
 	int length = luaL_checkint(lState, 2);
-	//!PA_MicStartRecording (buffer, length);
+	CommandStartRecording(buffer, length);
 	lua_pushboolean(lState, 1);
 
 	return 1;
@@ -24,9 +24,10 @@ static int l_GetVol(lua_State* lState)
 static int l_Replay(lua_State* lState)
 {
 	u8 channel = luaL_checkint(lState, 1);
-	u8 *buffer = (u8*)luaL_checkstring(lState, 2);
-	s32 length = luaL_checkint(lState, 3);
-	//*PA_MicReplay(channel,buffer,length);
+	u16 *buffer = (u16*)luaL_checkstring(lState, 2);
+	int length = luaL_checkint(lState, 3);
+	CommandPlayOneShotSample(0, 16384, buffer, length*2, 0x7f);
+	//playGenericSound(buffer, length);
 	lua_pushboolean(lState, 1);
 
 	return 1;
