@@ -1,7 +1,7 @@
 #include <nds.h>//NDS Header File - Included by default
 #include "lua.h"//LUA Header File - Included by default
 #include "lauxlib.h"//LUA Auxilary Library Header File - Included by default
-#include "DSLPads.h"//This files own header file\
+#include "DSLPads.h"//This files own header file
 
 static int l_HeldA(lua_State* lState)
 {

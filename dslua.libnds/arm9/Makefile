@@ -16,7 +16,7 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 BUILD		:=	build
 SOURCES		:=	source  
-INCLUDES	:=	include ../common/include ../lib/lua-5.1.2/include  ../lib/dslua/include
+INCLUDES	:=	include ../common/include ../lib/mikmod/include ../lib/lua-5.1.2/include ../lib/dslua/include
 DATA		:=
 
 #---------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -mno-fpu -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lfat -ldswifi9 -llua-5.1.2 -lm -ldslua -lnds9
+LIBS	:= -lfat -ldswifi9 -llua-5.1.2 -lm -ldslua -lmikmod9 -lnds9
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

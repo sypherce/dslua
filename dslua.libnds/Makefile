@@ -26,7 +26,7 @@ all: $(TARGET).ds.gba
 $(TARGET).ds.gba	: $(TARGET).nds
 
 #---------------------------------------------------------------------------------
-$(TARGET).nds	:	$(TARGET).arm7 lib/liblua-5.1.2.a lib/libdslua.a $(TARGET).arm9
+$(TARGET).nds	:	lib/libmikmod7.a $(TARGET).arm7 lib/libmikmod9.a lib/liblua-5.1.2.a lib/libdslua.a $(TARGET).arm9
 	ndstool	-c $(TARGET).nds -7 $(TARGET).arm7 -9 $(TARGET).arm9
 
 #---------------------------------------------------------------------------------
@@ -46,6 +46,14 @@ lib/liblua-5.1.2.a:
 	$(MAKE) -C lib/lua-5.1.2
 	
 #---------------------------------------------------------------------------------
+lib/libmikmod7.a:
+	$(MAKE) -C lib/mikmod
+	
+#---------------------------------------------------------------------------------
+lib/libmikmod9.a:
+	$(MAKE) -C lib/mikmod
+	
+#---------------------------------------------------------------------------------
 lib/libdslua.a:
 	$(MAKE) -C lib/dslua
 
@@ -54,5 +62,6 @@ clean:
 	$(MAKE) -C arm9 clean
 	$(MAKE) -C lib/dslua clean
 	$(MAKE) -C lib/lua-5.1.2 clean
+	$(MAKE) -C lib/mikmod clean
 	$(MAKE) -C arm7 clean
 	rm -f $(TARGET).ds.gba $(TARGET).nds $(TARGET).arm7 $(TARGET).arm9

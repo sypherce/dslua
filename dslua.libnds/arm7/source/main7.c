@@ -1,23 +1,39 @@
 #include <nds.h>
 #include <stdlib.h>
 #include <dswifi7.h>
-#include "ndsx_brightness.h"
+#include <mikmod7.h>
 
-void startSound(int sampleRate, const void* data, u32 bytes, u8 channel, u8 vol,  u8 pan, u8 format)
+#include "ndsx_brightness.h"
+#include "command.h"
+#include "tobmic.h"
+
+void startSound(int sampleRate, const void* data, uint32 bytes, u8 channel, u8 vol,  u8 pan, u8 format)
 {
 	SCHANNEL_TIMER(channel)  = SOUND_FREQ(sampleRate);
 	SCHANNEL_SOURCE(channel) = (u32)data;
-	SCHANNEL_LENGTH(channel) = bytes >> 2 ;
-	SCHANNEL_CR(channel)     = SCHANNEL_ENABLE | SOUND_ONE_SHOT | SOUND_VOL(vol) | SOUND_PAN(pan) | (format==1?SOUND_8BIT:SOUND_16BIT);
+	SCHANNEL_LENGTH(channel) = bytes >> 2;
+	u32 form = 0;
+	switch(format)
+	{
+	case 0:
+		form = SOUND_FORMAT_16BIT;
+		break;
+	case 1:
+		form = SOUND_FORMAT_8BIT;
+		break;
+	case 2:
+		form = SOUND_FORMAT_ADPCM;
+		break;
+	}
+	SCHANNEL_CR(channel) = SCHANNEL_ENABLE | SOUND_ONE_SHOT | SOUND_VOL(vol) | SOUND_PAN(pan) | form;
 }
-
 
 s32 getFreeSoundChannel()
 {
 	int i;
-	for(i=0; i<16; i++)
+	for(i=1; i<16; i++)	// channel 0 is reserved for music
 	{
-		if((SCHANNEL_CR(i) & SCHANNEL_ENABLE) == 0) return i;
+		if ( (SCHANNEL_CR(i) & SCHANNEL_ENABLE) == 0 ) return i;
 	}
 	return -1;
 }
@@ -118,6 +134,7 @@ void VblankHandler(void)
 		}
 	}
 
+	CommandProcessCommands();
 	Wifi_Update();
 }
 
@@ -144,7 +161,8 @@ void arm7_fifo()//check incoming fifo messages
 
         // Pass message through handlers --Lick
 		if(NDSX_ARM7_WifiSync(msg)) continue;
-        if(NDSX_ARM7_BrightnessFifo(msg)) continue;
+        else if(NDSX_ARM7_BrightnessFifo(msg)) continue;
+		else MikMod7_ProcessCommand(msg);
     }
 }
 
@@ -169,10 +187,11 @@ int main(int argc, char ** argv)
 	irqSet(IRQ_VCOUNT, VcountHandler);
 	irqEnable(IRQ_VBLANK | IRQ_VCOUNT);
 
+	irqSet(IRQ_TIMER0, tob_ProcessMicrophoneTimerIRQ);
+	tob_MIC_On();
+
 	irqSet(IRQ_WIFI, Wifi_Interrupt);
 	irqEnable(IRQ_WIFI);
-
-
 
 	// trade some mail, to get a pointer from arm9
 	while(1)
